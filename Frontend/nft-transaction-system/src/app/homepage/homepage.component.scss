@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap');
+.homepage{
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    --light-bounding: #d2dcea;
+    --action-txt: #3a588a;
+    --light-bg: #f5f9fe;
+    --light-bg-hover: #ecf4ff;
+    --main-white: #fff;
+    --main-white2: #fff;
+    --main-grey: #7692bc;
+    --light-grey: #b8c6dc;
+    --main-black: #001028;
+    --main-blue: #0099fa;
+    --light-blue: #93c5fe;
+    --main-pink: #f855f6;
+    --main-red: #e65050;
+    --main-orange: #f70;
+    --main-green: #24c872;
+    --dropdown-background: #fff;
+    --modal-overlay: rgba(0,16,40,0.7);
+    --disabled-text-color: #e7e7f1;
+    --border-radius: 12px;
+    --border: 1px solid #d2dcea;
+    --admin-box-shadow: rgba(68,68,77,0.1) 0px 7px 29px 0px;
+    --shadow-color: rgba(124,142,171,0.32);
+    --menu-shadow: 0px 4px 16px var(--shadow-color);
+    --tooltip-shadow: 0px 4px 16px var(--shadow-color);
+    --item-hover-shadow: 0px 2px 20px var(--shadow-color);
+    --swap-bar-shadow: 0px -8px 16px -4px rgba(0,32,79,0.25);
+    --notice-height: 40px;
+    --header-height: 72px;
+    --main-container: 1224px;
+    --transition-time: 0.2s;
+    --home-container-padding-x: 86px;
+    --home-container-padding-x-mobile: 20px;
+    --home-carousel-arrow-color: #f5f9fe;
+    --swaps-max-height: 800px;
+    --swap-btn-color: var(--main-blue);
+    --swap-btn-color-disabled: #93c5fe;
+    --graph-color: linear-gradient(180deg,transparent 0%,var(--light-bg) 100%);
+    --loading-svg-bg: #f5f9fe;
+    --loading-svg-fg: #eaf0f8;
+    --img-background: linear-gradient(180deg,rgba(245,249,254,0),#f5f9fe);
+    --snackbar-bg: #272e37;
+    color: var(--main-grey);
+    letter-spacing: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    align-items: center;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inContainer{
+    letter-spacing: 0;
+    overflow: hidden;
+    min-height: 584px;
+    // display: flex;
+    justify-content: space-between;
+    max-width: calc(var(--main-container) + 32px);
+    align-items: center;
+    // flex-direction: column;
+    padding: 0 var(--home-container-padding-x-mobile);
+    grid-gap: 32px;
+    gap: 32px;
+    
+    .containerInfo{
+        max-width: 450px;
+        .infoText{
+            font-size: 61.04px;
+            font-weight: 750;
+            line-height: 70px;
+            color: var(--main-black);
+            margin-bottom: 16px;
+            .text-container h1{
+                font-size: 150px;
+                color: rgba(255,255,255,.2);
+                background-image: url(./../../assets/img/nft-collage.jpg);
+                // background-image: url('https://images.unsplash.com/photo-1529641484336-ef35148bab06?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=55a1e60cd6799d5761c7ec40c4954569&auto=format&fit=crop&w=500&q=60');
+                /*background-position: center; */
+                background-size: 1000px;
+                background-repeat: repeat-x;
+                -webkit-background-clip: text;
+                animation: animate 15s linear infinite;
+            }
+            @keyframes animate {
+                0% {
+                  background-position: left 0px top 0px;
+                }
+                40% {
+                  background-position: left 800px top 0px;
+                }
+            }
+              
+            .text-container {
+                margin-left: -10px;
+            }
+        }
+        button{
+            font-size: 16px;
+            font-weight: 600;
+            width: 160px;
+            margin-right: 20px;
+            height: 50px;
+            border-radius: 20px;
+        }
+    }
+    .containerNFT{
+        height: 584px;
+        width: 504px;
+        .nft-collection{
+            margin-top: 10%;
+            img{
+                border-radius: 50%;
+            }
+        }
+    }
+}
