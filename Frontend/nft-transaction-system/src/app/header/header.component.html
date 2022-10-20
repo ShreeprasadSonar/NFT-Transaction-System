@@ -19,9 +19,9 @@
             My Account
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#"> Dashboard </a>
-            <a class="dropdown-item" href="#"> Login </a>
-            <a class="dropdown-item" href="#"> Logout </a>
+            <a class="dropdown-item" *ngIf="this.readisloggedIn() == true" href="#"> Dashboard </a>
+            <a class="dropdown-item" *ngIf="this.readisloggedIn() != true" href="/login"> Login </a>
+            <a class="dropdown-item" *ngIf="this.readisloggedIn() == true" style="cursor: pointer" (click)="this.logout()"> Logout </a>
           </div>
         </li>
       </ul>
