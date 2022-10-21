@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 const scroller = document.querySelector("#scroller");
@@ -10,7 +11,8 @@ const scroller = document.querySelector("#scroller");
 export class HeaderComponent implements OnInit {
   isloggedIn:Boolean = false
 
-  constructor(private authService:AuthService) {
+  constructor(private authService:AuthService,
+              private router: Router) {
     if(localStorage.getItem('isloggedIn') == 'true'){
       this.isloggedIn = true
     } else{
