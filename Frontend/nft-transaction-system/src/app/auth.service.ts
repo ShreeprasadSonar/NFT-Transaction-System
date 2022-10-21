@@ -9,7 +9,11 @@ export class AuthService {
   isloggedIn = false
 
   constructor(private http: HttpClient,
-              private router: Router) { }
+              private router: Router) { 
+                if(localStorage.getItem('isloggedIn') == 'true'){
+                  this.isloggedIn = true
+                }
+              }
 
   login(email:string, pass:string){
     // ref https://blog.angular-university.io/angular-jwt-authentication/
@@ -22,6 +26,10 @@ export class AuthService {
     }  else {
       return 'notloggedIN'
     }
+  }
+
+  isAuthenticated(){
+    return this.isloggedIn;
   }
 
   logout(){
