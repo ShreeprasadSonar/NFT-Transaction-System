@@ -1,0 +1,47 @@
+<div class="container-fluid ps-md-0">
+    <div class="row g-0">
+
+        <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-9 col-lg-8 mx-auto">
+                    <h3 class="login-heading mb-4">Welcome!</h3>
+                    <p class="mb-4" style="font-weight: 200;">Please enter your email and create a password to signup</p>
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                      <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  id="inputEmail4">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                          <div *ngIf="f.email.errors.required">Email is required</div>
+                          <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                       </div>
+                        <label for="floatingInput">Email address</label>
+                      </div>
+                      <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password"[ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword4">
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                          <div *ngIf="f.password.errors.required">Password is required</div>
+                       </div>
+                        <label for="floatingPassword">Password</label>
+                      </div>
+    
+                      <div *ngIf="this.wrongPassword == true" class="form-floating mb-3">
+                        <p style="color: red;"> Wrong username or password</p>
+                      </div>
+      
+                      <div class="d-grid">
+                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit">Sign Up</button>
+                      </div>
+      
+                    </form>
+                  </div>
+    
+                </div>
+              </div>
+            </div>
+          </div>
+
+      <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+
+    </div>
+  </div>
