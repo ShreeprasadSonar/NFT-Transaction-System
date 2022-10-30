@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
       //                   this.router.navigateByUrl('/');
       //               }
       //           );
-      this.cstatus = this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
+      // this.cstatus = this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
       if(this.cstatus != 'loggedIn'){
         this.wrongPassword = true;
         return;
