@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, session, redirect, url_for, g
+from flask import Flask, render_template, request, session, redirect, url_for, g, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
-import json
+from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = 'ruerhejdncjcdgduhnjsncjxckd'
@@ -9,9 +9,8 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'mysql123'
 app.config['MYSQL_DB'] = 'NFT_System'
-cors = CORS(app, resources={r"/login": {"origins": "*"}})
 CORS(app, support_credentials=True)
-app.config['CORS_HEADERS'] = 'application/json'
+Server_Session = Session(app)
 app.config["DEBUG"] = True
 
 mysql = MySQL(app)
@@ -20,44 +19,43 @@ mysql = MySQL(app)
 def before_request():
     g.user = None
     
-    if 't_id' in session:
+    if 'user_id' in session:
         query1 = "SELECT * from TRADER where t_id = '{un}'".format(un = session['user_id'])
         g.user = query1
-        
+
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])        
 @app.route('/login', methods=['GET', 'POST'])
-@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
-    if request.method == 'POST':
-        #session.pop['t_id', None]
-        return request.json['credentials']
-        email = request.form['email']
-        password = request.form['password']
-        # cursor = mysql.connection.cursor()
-        #query1 = "SELECT t_name, pass from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
-        #rows = cursor.execute(query1)
-        #rows = rows.fetchall()
-        if (email == "admin@admin.com" and password == "admin"):
-            #query2 = "SELECT t_id from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
-            #session['t_id'] = query2
+        session.pop['user_id', None]
+        email = request.json['email']
+        password = request.json['password']
+        cursor = mysql.connection.cursor()
+        query1 = "SELECT t_name, pass from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
+        rows = cursor.execute(query1)
+        rows = rows.fetchall()
+        if (rows == 1):
+            #session['token_id'] = token_id
+            query2 = "SELECT t_id from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
+            session['user_id'] = query2
             return redirect(url_for('dashboard'))
         
-        return redirect(url_for('login'))
-    
-    return render_template('login.html')  
+        return redirect(url_for('login'))  
    
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['Rusername']
-        password = request.form['Rpassword']
-        email = request.form['Remail']
+        email = request.json['Remail']
+        password = request.json['Rpassword']
         cursor = mysql.connection.cursor()
-        query1 = "INSERT INTO TRADER VALUES ('{u}','{p}','{e}')".format(u = username, p = password, e = email)
-        cursor.execute(query1)
+        query1 = "INSERT INTO TRADER VALUES ('{e}','{p}')".format(e = email, p = password)
+        rows = cursor.execute(query1)
+        rows = rows.fetchall()
+        if (rows == 1):
+            return jsonify({"error":"User Already Exists"}), 409
         mysql.connection.commit()
         return redirect('/login')
     
-    return render_template('Register.html')
+    return jsonify({"error":"Unauthorised"}), 401
 
 @app.route('/dashboard')
 def dashboard():
