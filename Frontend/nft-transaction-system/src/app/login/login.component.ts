@@ -33,7 +33,17 @@ export class LoginComponent implements OnInit {
       //                   this.router.navigateByUrl('/');
       //               }
       //           );
-      this.cstatus = this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
+      // this.cstatus = this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
+      if (this.registerForm.value.email && this.registerForm.value.password) {
+        this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
+            .subscribe(
+                res => {
+                  console.log(res)
+                    console.log("User is logged in");
+                    this.router.navigateByUrl('/');
+                }
+            );
+    }
       if(this.cstatus != 'loggedIn'){
         this.wrongPassword = true;
         return;
