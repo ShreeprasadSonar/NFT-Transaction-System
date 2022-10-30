@@ -24,17 +24,17 @@ def before_request():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session.pop['t_id', None]
+        #session.pop['t_id', None]
         
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        cursor = mysql.connection.cursor()
-        query1 = "SELECT t_name, pass from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = username, pw = password)
-        rows = cursor.execute(query1)
-        rows = rows.fetchall()
-        if len(rows) == 1:
-            query2 = "SELECT t_id from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = username, pw = password)
-            session['t_id'] = query2
+        # cursor = mysql.connection.cursor()
+        #query1 = "SELECT t_name, pass from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
+        #rows = cursor.execute(query1)
+        #rows = rows.fetchall()
+        if (email == "admin@admin.com" and password == "admin"):
+            #query2 = "SELECT t_id from TRADER where t_name = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
+            #session['t_id'] = query2
             return redirect(url_for('dashboard'))
         
         return redirect(url_for('login'))
