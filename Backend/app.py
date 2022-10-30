@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, g
 from flask_mysqldb import MySQL
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import json
 
 app = Flask(__name__)
@@ -9,7 +9,8 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'mysql123'
 app.config['MYSQL_DB'] = 'NFT_System'
-cors = CORS(app, resources={r"*": {"origins": "*"}})
+cors = CORS(app, resources={r"/login": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 app.config["DEBUG"] = True
 
 mysql = MySQL(app)
@@ -21,11 +22,13 @@ def before_request():
     if 't_id' in session:
         query1 = "SELECT * from TRADER where t_id = '{un}'".format(un = session['user_id'])
         g.user = query1
+        
 @app.route('/login', methods=['GET', 'POST'])
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 def login():
     if request.method == 'POST':
         #session.pop['t_id', None]
-        
+        return request.json['credentials']
         email = request.form['email']
         password = request.form['password']
         # cursor = mysql.connection.cursor()
