@@ -9,7 +9,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'mysql123'
 app.config['MYSQL_DB'] = 'NFT_System'
-CORS(app)
+cors = CORS(app, resources={r"*": {"origins": "*"}})
 app.config["DEBUG"] = True
 
 mysql = MySQL(app)
