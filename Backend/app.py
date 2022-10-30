@@ -10,7 +10,8 @@ app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'mysql123'
 app.config['MYSQL_DB'] = 'NFT_System'
 cors = CORS(app, resources={r"/login": {"origins": "*"}})
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app, support_credentials=True)
+app.config['CORS_HEADERS'] = 'application/json'
 app.config["DEBUG"] = True
 
 mysql = MySQL(app)
@@ -65,4 +66,4 @@ def dashboard():
     
     return render_template('dashboard.html')
     
-app.run()
+app.run(host='0.0.0.0', port=4200, debug=True)
