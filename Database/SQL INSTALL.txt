@@ -3,10 +3,10 @@
 3. In the Extension tab -> search and install MYSQL management tool
 4. Open MYSQL location in the computer using file explorer. Usually in C Drive -> Program File.
 5. After finding the location. Open command promt from that particular location.
-6. Connect to MYSQL and perform the follwing commands.
+6. Connect to MYSQL and perform the follwing commands:
 mysql -u root -p
 CREATE USER 'sqluser'@'%' IDENTIFIED WITH mysql_native_password BY 'password'; 
-GRANT ALL PRIVILEGES ON . TO 'sqluser'@'%'; 
+GRANT ALL PRIVILEGES ON *.* TO 'sqluser'@'%'; 
 FLUSH PRIVILEGES;
 7. After performing above commands. Open VS Code. You will see SQL Folder in the EXPLORER window.
 8. Click on '+' symbol beside MYSQL. Enter the following details:
