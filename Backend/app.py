@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, session, redirect, url_for, g, jsonify
 from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
-from flask_session import Session
 from eth_account import Account
 import secrets
+import MySQLdb.cursors
+import re
 
 app = Flask(__name__)
 app.secret_key = 'somesecretkeythatishouldknow'
@@ -14,7 +15,6 @@ app.config['MYSQL_DB'] = 'NFT_System'
 mysql = MySQL(app)
 
 CORS(app, support_credentials=True)
-Server_Session = Session(app)
 
 priv = secrets.token_hex(32)
 private_key = "0x" + priv
@@ -33,35 +33,47 @@ def before_request():
 @cross_origin(origin='*',headers=['Content-Type','Authorization'])  
 @app.route('/login', methods=['POST'])
 def login():
-        #session.pop('user_id', None)
+        session.pop('user_id', None)
+        msg = ''
         email = request.json['email']
         password = request.json['password']
         cursor = mysql.connection.cursor()
-        query1 = "SELECT email, pass from TRADER where email = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
-        rows = cursor.execute(query1)
-        rows = rows.fetchall()
-        if (rows == 1):
-            #query2 = "SELECT t_id from TRADER where email = '{un}' AND pass = '{pw}'".format(un = email, pw = password)
+        cursor.execute("SELECT email, pass FROM TRADER WHERE email = % s AND pass = % s", (email, password, ))
+        #rows = cursor.execute(query1)
+        account = cursor.fetchone()
+        if account:
             session['user_id'] = email
-            return redirect(url_for('dashboard'))
-        
-        return redirect(url_for('login'))
+            msg = 'Logged in Successfully'
+            #return jsonify({"Success":"Login Successful"}), 400
+            return redirect(url_for('dashboard'), msg = msg)
+        else:
+            #return jsonify({"Failed":"Incorrect Username or Password"}), 409   
+            return redirect(url_for('login'), msg = msg)
    
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-        email = request.json['Remail']
-        password = request.json['Rpassword']
+        msg - ''
+        email = request.json['email']
+        password = request.json['password']
         cursor = mysql.connection.cursor()
-        query1 = "INSERT INTO TRADER VALUES ('{e}','{p}')".format(e = email, p = password)
-        rows = cursor.execute(query1)
-        rows = rows.fetchall()
-        if (rows == 1):
-            return jsonify({"error":"User Already Exists"}), 409
-        mysql.connection.commit()
+        cursor.execute('SELECT * FROM TRADER WHERE email = % s', (email, ))
+        account = cursor.fetchone()
+        if account:
+            msg = 'Account already exists !'
+        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
+            msg = 'Invalid email address !'
+        #elif not re.match(r'[A-Za-z0-9]+', username):
+            #msg = 'Username must contain only characters and numbers !'
+        elif not password or not email:
+            msg = 'Please fill out the form !'
+        else:
+            cursor.execute('INSERT INTO TRADER VALUES (% s, % s)', (password, email, ))
+            mysql.connection.commit()
+            msg = 'You have successfully registered !'
     
-        return redirect(url_for('login'))
+        return redirect(url_for('login'), msg = msg)
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET'])
 def dashboard():
     if not g.user:
         return redirect(url_for('login')) 
