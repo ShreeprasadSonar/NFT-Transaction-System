@@ -14,6 +14,7 @@
                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                           <div *ngIf="f.email.errors.required">Email is required</div>
                           <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                          <div *ngIf="f.email.errors.maxlength">Max Length 50 Exceeded</div>
                        </div>
                         <label for="floatingInput">Email address</label>
                       </div>
@@ -21,6 +22,7 @@
                         <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password"[ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="inputPassword4">
                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                           <div *ngIf="f.password.errors.required">Password is required</div>
+                          <div *ngIf="f.password.errors.maxlength">Max Length 50 Exceeded</div>
                        </div>
                         <label for="floatingPassword">Password</label>
                       </div>
@@ -29,6 +31,7 @@
                         <input type="text" class="form-control" id="floatingInput" placeholder="Firstname" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"  id="inputFirstname4">
                         <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
                           <div *ngIf="f.firstName.errors.required">Firstname is required</div>
+                          <div *ngIf="f.firstName.errors.maxlength">Max Length 25 Exceeded</div>
                        </div>
                         <label for="floatingInput">Firstname</label>
                       </div>
@@ -37,6 +40,7 @@
                         <input type="text" class="form-control" id="floatingInput" placeholder="Lastname" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"  id="inputLastname4">
                         <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
                           <div *ngIf="f.lastName.errors.required">Lastname is required</div>
+                          <div *ngIf="f.lastName.errors.maxlength">Max Length 25 Exceeded</div>
                        </div>
                         <label for="floatingInput">Lastname</label>
                       </div>
@@ -63,6 +67,7 @@
                         <input type="text" class="form-control" id="floatingInput" placeholder="Street Address" formControlName="streetAddress" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.streetAddress.errors }"  id="inputStreetAddress4">
                         <div *ngIf="submitted && f.streetAddress.errors" class="invalid-feedback">
                           <div *ngIf="f.streetAddress.errors.required">Street Address is required</div>
+                          <div *ngIf="f.streetAddress.errors.maxlength">Max Length 50 Exceeded</div>
                        </div>
                         <label for="floatingInput">Street Address</label>
                       </div>
@@ -71,6 +76,7 @@
                         <input type="text" class="form-control" id="floatingInput" placeholder="City" formControlName="city" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.city.errors }"  id="inputCity4">
                         <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
                           <div *ngIf="f.city.errors.required">City is required</div>
+                          <div *ngIf="f.city.errors.maxlength">Max Length 10 Exceeded</div>
                        </div>
                         <label for="floatingInput">City</label>
                       </div>
@@ -79,6 +85,7 @@
                         <input type="text" class="form-control" id="floatingInput" placeholder="State" formControlName="state" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.state.errors }"  id="inputState4">
                         <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
                           <div *ngIf="f.state.errors.required">State is required</div>
+                          <div *ngIf="f.state.errors.maxlength">Max Length 10 Exceeded</div>
                        </div>
                         <label for="floatingInput">State</label>
                       </div>

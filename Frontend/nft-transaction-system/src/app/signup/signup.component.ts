@@ -24,15 +24,15 @@ export class SignupComponent implements OnInit {
       this.router.navigateByUrl('/')
     }
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+      password: ['', [Validators.required, Validators.maxLength(50)]],
+      firstName: ['', [Validators.required, Validators.maxLength(25)]],
+      lastName: ['', [Validators.required, Validators.maxLength(25)]],
       phoneNumber: ['', [Validators.required, Validators.pattern("[0-9 ]{10}")]],
       cellphoneNumber: ['', [Validators.required, Validators.pattern("[0-9 ]{10}")]],
-      streetAddress: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      state: ['', [Validators.required]],
+      streetAddress: ['', [Validators.required, Validators.maxLength(50)]],
+      city: ['', [Validators.required, Validators.maxLength(10)]],
+      state: ['', [Validators.required, Validators.maxLength(10)]],
       zipCode: ['', [Validators.required, Validators.pattern("[0-9 ]{5}")]],
       });
   }
