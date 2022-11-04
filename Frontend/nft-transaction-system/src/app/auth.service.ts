@@ -30,8 +30,8 @@ export class AuthService {
   // }
 
   login(email:string, password:string ) {
-    const headers = { 'Content-Type': 'Authorization'}  
-    return this.http.post('http://10.191.32.23:8000/login', {email, password}, { headers: headers})
+    //const headers = { 'Content-Type': 'Authorization'}  
+    return this.http.post('http://127.0.0.1:5000/login', {email, password})
   }
 
   isAuthenticated(){
