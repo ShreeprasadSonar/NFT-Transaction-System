@@ -3,8 +3,9 @@ from flask_mysqldb import MySQL
 from flask_cors import CORS, cross_origin
 from eth_account import Account
 import secrets
-import MySQLdb.cursors
 import re
+import phonenumbers
+import random
 
 app = Flask(__name__)
 app.secret_key = 'somesecretkeythatishouldknow'
@@ -16,11 +17,10 @@ mysql = MySQL(app)
 
 CORS(app, support_credentials=True)
 
-priv = secrets.token_hex(32)
-private_key = "0x" + priv
-#print ("SAVE BUT DO NOT SHARE THIS:", private_key)
-acct = Account.from_key(private_key)
-print("Address:", acct.address)
+def randN(N):
+	min = pow(10, N-1)
+	max = pow(10, N) - 1
+	return random.randint(min, max)
 
 @app.before_request
 def before_request():
@@ -50,35 +50,57 @@ def login():
             #return jsonify({"Failed":"Incorrect Username or Password"}), 409   
             return redirect(url_for('login'), msg = msg)
    
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
-        msg - ''
+        msg = ''
+        firstName = request.json['firstName']
+        lastName = request.json['lastName']
+        temp_name = firstName + lastName
+        name = firstName + ' ' + lastName
         email = request.json['email']
         password = request.json['password']
+        phone = request.json['phone']
+        phone = '+' + phone
+        check_phone = phonenumbers.parse(phone)
+        cell_phone = request.json['cellphoneNumber']
+        city = request.json['city']
+        trader_id = randN(10)
+        state = request.json['state']
+        street_address = request.json['st_address']
+        zipcode = request.json['zipcode']
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM TRADER WHERE email = % s', (email, ))
+        priv = secrets.token_hex(32)
+        private_key = "0x" + priv
+        acct = Account.from_key(private_key)
+        #print("Address:", acct.address)
+        cursor.execute('SELECT * FROM TRADER WHERE email = % s', (email,))
         account = cursor.fetchone()
         if account:
             msg = 'Account already exists !'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address !'
-        #elif not re.match(r'[A-Za-z0-9]+', username):
-            #msg = 'Username must contain only characters and numbers !'
-        elif not password or not email:
+            msg = 'Invalid email address !' 
+        elif not re.match(r'[A-Za-z0-9]+', temp_name):
+            msg = 'Username must contain only characters and numbers !'
+        elif (phonenumbers.is_possible_number(check_phone) == 'FALSE'):
+            msg = 'Phone number is invalid !'
+        elif not password or not email or not firstName or not lastName or not phone or not cell_phone or not city or not zipcode or not street_address or not state:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO TRADER VALUES (% s, % s)', (password, email, ))
+            cursor.execute('INSERT INTO TRADER (t_id, t_name, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (%s, % s,% s, %s, % s, %s, %s, %s, %s, %s)', (trader_id, name, password, 40.25, phone, cell_phone, email, 'SILVER', acct.address, 0))
+            cursor.execute('INSERT INTO ADDRESS (t_id, city, state, st_add, zipcode) VALUES (% s,% s, % s, %s, %s)', (trader_id, city, state, street_address, zipcode))
             mysql.connection.commit()
             msg = 'You have successfully registered !'
-    
-        return redirect(url_for('login'), msg = msg)
+            #return jsonify({"Success":"SignUp Successful"}), 201
+            return redirect(url_for('login'), msg = msg)
+        #return jsonify({"Failed":"Incorrect Username or Password"}), 409
+        return redirect(url_for('register'), msg = msg)
 
-@app.route('/dashboard', methods=['GET'])
+@app.route('/homepage', methods=['GET'])
 def dashboard():
     if not g.user:
         return redirect(url_for('login')) 
     
-    return render_template('dashboard.html')
+    return render_template('homepage.html')
 
 @app.route('/logout', methods=['POST'])
 def logout(): 
