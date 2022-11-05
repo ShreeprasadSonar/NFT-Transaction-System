@@ -35,8 +35,7 @@ export class AuthService {
   }
 
   signup(userData:FormGroup) {
-    console.log(userData)
-    // return this.http.post('http://127.0.0.1:5000/signup', {userData})
+    return this.http.post('http://127.0.0.1:5000/register', {userData})
   }
 
   isAuthenticated(){
