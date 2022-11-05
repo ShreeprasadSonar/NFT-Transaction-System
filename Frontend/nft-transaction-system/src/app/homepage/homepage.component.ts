@@ -11,9 +11,6 @@ export class HomepageComponent implements OnInit {
   constructor(private data:DataService) { }
 
   ngOnInit(): void {
-    console.log(this.data.getData().toString())
+    // console.log(this.data.getData().toString())
   }
-
-  
-
 }
