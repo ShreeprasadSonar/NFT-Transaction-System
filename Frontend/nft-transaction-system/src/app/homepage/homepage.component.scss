@@ -62,10 +62,9 @@
     min-height: 584px;
     // display: flex;
     justify-content: space-between;
-    max-width: calc(var(--main-container) + 32px);
+    max-width: 100%;
     align-items: center;
     // flex-direction: column;
-    padding: 0 var(--home-container-padding-x-mobile);
     grid-gap: 32px;
     gap: 32px;
     
@@ -112,12 +111,15 @@
     }
     .containerNFT{
         height: 584px;
-        width: 504px;
+        width: 100%;
         .nft-collection{
             margin-top: 10%;
-            img{
-                border-radius: 50%;
-            }
         }
+    }
+    .nftCollectionImage{
+        border-radius: 50%;
+        width: 200%;
+        max-width: 500px;
+        max-height: 500px;
     }
 }
