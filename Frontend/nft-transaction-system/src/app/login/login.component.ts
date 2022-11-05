@@ -38,8 +38,10 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
             .subscribe(
                 res => {
-                  console.log(res)
+                  console.log(JSON.stringify(res))
                     console.log("User is logged in");
+                          localStorage.setItem('isloggedIn', 'true');
+                          localStorage.setItem('email', this.registerForm.value.email);
                     this.router.navigateByUrl('/');
                 }
             );
