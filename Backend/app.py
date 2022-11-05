@@ -68,26 +68,26 @@ def login():
                 }
             return jsonify(responseObject), 401   
             #return render_template('login.html', msg = msg)
-   
-@app.route('/register', methods=['POST'])
+            
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
         msg = ''
         req = request.get_json()
+        print(req)
         firstName = req['firstName']
         lastName = req['lastName']
-        temp_name = firstName + lastName
-        name = firstName + ' ' + lastName
         email = req['email']
         password = req['password']
-        phone = req['phone']
+        phone = req['phoneNumber']
+        cell_phone = req['cellphoneNumber']
         phone = '+' + phone
         check_phone = phonenumbers.parse(phone)
-        cell_phone = req['cellphoneNumber']
         city = req['city']
         trader_id = randN(10)
         state = req.json['state']
-        street_address = req['st_address']
-        zipcode = req['zipcode']
+        street_address = req['streetAddress']
+        zipcode = req['zipCode']
         cursor = mysql.connection.cursor()
         priv = secrets.token_hex(32)
         private_key = "0x" + priv
@@ -99,14 +99,14 @@ def register():
             msg = 'Account already exists !'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address !' 
-        elif not re.match(r'[A-Za-z0-9]+', temp_name):
+        elif not re.match(r'[A-Za-z0-9]+', firstName):
             msg = 'Username must contain only characters and numbers !'
         elif (phonenumbers.is_possible_number(check_phone) == 'FALSE'):
             msg = 'Phone number is invalid !'
         elif not password or not email or not firstName or not lastName or not phone or not cell_phone or not city or not zipcode or not street_address or not state:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO TRADER (t_id, t_name, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (%s, % s,% s, %s, % s, %s, %s, %s, %s, %s)', (trader_id, name, password, 40.25, phone, cell_phone, email, 'SILVER', acct.address, 0))
+            cursor.execute('INSERT INTO TRADER (t_id, t_name, t_lastName, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (%s, % s,% s, % s, %s, % s, %s, %s, %s, %s, %s)', (trader_id, firstName, lastName, password, 40.25, phone, cell_phone, email, 'SILVER', acct.address, 0))
             cursor.execute('INSERT INTO ADDRESS (t_id, city, state, st_add, zipcode) VALUES (% s,% s, % s, %s, %s)', (trader_id, city, state, street_address, zipcode))
             mysql.connection.commit()
             msg = 'You have successfully registered !'
