@@ -13,6 +13,7 @@ export class SignupComponent implements OnInit {
   registerForm:any = FormGroup;
   submitted = false;
   wrongPassword = false;
+  response:any;
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router) { }
@@ -46,18 +47,15 @@ export class SignupComponent implements OnInit {
     //True if all the fields are filled
     if(this.submitted)
     {
-      // this.authService.login(this.registerForm.value.email, this.registerForm.value.password).subscribe(() => {
-      //                   console.log("User is logged in");
-      //                   this.router.navigateByUrl('/');
-      //               }
-      //           );
-      // this.cstatus = this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
-      if(this.cstatus != 'loggedIn'){
-        this.wrongPassword = true;
         return;
-      }
-      this.ngOnInit()
-      alert("Great!!");
+      this.authService.signup(this.registerForm.value)
+            // .subscribe(
+            //     res => {
+            //         this.response = res;
+            //         alert("Signup Succesful");
+            //         this.router.navigateByUrl('/');
+            //     }
+            // );
     }
    
   }

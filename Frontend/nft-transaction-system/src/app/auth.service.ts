@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormControl,FormGroup,Validators,FormBuilder } from '@angular/forms';
 import * as moment from "moment";
 
 @Injectable({
@@ -30,8 +31,12 @@ export class AuthService {
   // }
 
   login(email:string, password:string ) {
-    //const headers = { 'Content-Type': 'Authorization'}  
     return this.http.post('http://127.0.0.1:5000/login', {email, password})
+  }
+
+  signup(userData:FormGroup) {
+    console.log(userData)
+    // return this.http.post('http://127.0.0.1:5000/signup', {userData})
   }
 
   isAuthenticated(){
