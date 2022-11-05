@@ -85,7 +85,7 @@ def register():
         check_phone = phonenumbers.parse(phone)
         city = req['city']
         trader_id = randN(10)
-        state = req.json['state']
+        state = req['state']
         street_address = req['streetAddress']
         zipcode = req['zipCode']
         cursor = mysql.connection.cursor()
@@ -106,14 +106,14 @@ def register():
         elif not password or not email or not firstName or not lastName or not phone or not cell_phone or not city or not zipcode or not street_address or not state:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO TRADER (t_id, t_name, t_lastName, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (%s, % s,% s, % s, %s, % s, %s, %s, %s, %s, %s)', (trader_id, firstName, lastName, password, 40.25, phone, cell_phone, email, 'SILVER', acct.address, 0))
-            cursor.execute('INSERT INTO ADDRESS (t_id, city, state, st_add, zipcode) VALUES (% s,% s, % s, %s, %s)', (trader_id, city, state, street_address, zipcode))
+            cursor.execute("INSERT INTO TRADER (t_id, t_name, t_lastname, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, firstName, lastName, password, 40.25, phone, cell_phone, email, 'SILVER', acct.address, 0))
+            cursor.execute("INSERT INTO ADDRESS (t_id, city, state, st_add, zipcode) VALUES (% s,% s, % s, % s, % s)", (trader_id, city, state, street_address, zipcode))
             mysql.connection.commit()
             msg = 'You have successfully registered !'
-            #return jsonify({"Success":"SignUp Successful"}), 201
-            return redirect(url_for('login'), msg = msg)
-        #return jsonify({"Failed":"Incorrect Username or Password"}), 409
-        return redirect(url_for('register'), msg = msg)
+            return jsonify({"Success":"SignUp Successful"}), 200
+            #return redirect(url_for('login'), msg = msg)
+        return jsonify({"Failed":"Incorrect Details Entered"}), 401
+        #return redirect(url_for('register'), msg = msg)
 
 @app.route('/homepage', methods=['GET'])
 def dashboard():
