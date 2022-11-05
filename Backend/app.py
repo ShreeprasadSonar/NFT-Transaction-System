@@ -6,15 +6,18 @@ import secrets
 import re
 import phonenumbers
 import random
+import jwt
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.secret_key = 'somesecretkeythatishouldknow'
+app.config['SECRET_KEY'] = '004f2af45d3a4e161a7dd2d17fdae47f'
 app.config['MYSQL_USER'] = 'sqluser'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_DB'] = 'NFT_System'
 mysql = MySQL(app)
 
+#Server_Session = Session(app)
 
 CORS(app, support_credentials=True)
 
@@ -45,32 +48,46 @@ def login():
         account = cursor.fetchone()
         if account:
             session['user_id'] = email
+            token = jwt.encode({
+                'user_id': session['user_id'],
+                'exp': datetime.utcnow() + timedelta(hours=24)
+            }, app.config['SECRET_KEY'])
+            token = token.encode().decode('UTF-8')
             msg = 'Logged in Successfully'
-            return jsonify({"Success":"Login Successful"}), 200
+            responseObject = {
+                    'status': 'success',
+                    'message': msg,
+                    'auth_token': token
+                }
+            return jsonify(responseObject), 200
             #return render_template('dashboard.html', msg = msg)
         else:
-            return jsonify({"Failed":"Incorrect Username or Password"}), 409   
+            responseObject = {
+                    'status': 'fail',
+                    'message': 'Incorrect Username or Password.',
+                }
+            return jsonify(responseObject), 401   
             #return render_template('login.html', msg = msg)
    
 @app.route('/register', methods=['POST'])
 def register():
         msg = ''
         req = request.get_json()
-        firstName = req.json['firstName']
-        lastName = req.json['lastName']
+        firstName = req['firstName']
+        lastName = req['lastName']
         temp_name = firstName + lastName
         name = firstName + ' ' + lastName
-        email = req.json['email']
-        password = req.json['password']
-        phone = req.json['phone']
+        email = req['email']
+        password = req['password']
+        phone = req['phone']
         phone = '+' + phone
         check_phone = phonenumbers.parse(phone)
-        cell_phone = req.json['cellphoneNumber']
-        city = req.json['city']
+        cell_phone = req['cellphoneNumber']
+        city = req['city']
         trader_id = randN(10)
         state = req.json['state']
-        street_address = req.json['st_address']
-        zipcode = req.json['zipcode']
+        street_address = req['st_address']
+        zipcode = req['zipcode']
         cursor = mysql.connection.cursor()
         priv = secrets.token_hex(32)
         private_key = "0x" + priv
