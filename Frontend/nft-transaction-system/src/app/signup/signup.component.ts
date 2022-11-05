@@ -47,7 +47,17 @@ export class SignupComponent implements OnInit {
     //True if all the fields are filled
     if(this.submitted)
     {
-      this.authService.signup(this.registerForm.value)
+      this.authService.signup(this.registerForm.value.email,
+                              this.registerForm.value.password,
+                              this.registerForm.value.firstName,
+                              this.registerForm.value.lastName,
+                              this.registerForm.value.phoneNumber,
+                              this.registerForm.value.cellphoneNumber,
+                              this.registerForm.value.streetAddress,
+                              this.registerForm.value.city,
+                              this.registerForm.value.state,
+                              this.registerForm.value.zipCode,
+                              )
             .subscribe(
                 res => {
                     this.response = res;
