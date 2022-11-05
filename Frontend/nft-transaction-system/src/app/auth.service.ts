@@ -41,6 +41,7 @@ export class AuthService {
   logout(){
     localStorage.setItem('isloggedIn', 'false');
     localStorage.removeItem('email');
+    localStorage.removeItem('token');
     alert("You have been succesfully logged out");
     this.router.navigateByUrl("/homepage");
   }

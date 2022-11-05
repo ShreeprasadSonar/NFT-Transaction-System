@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   registerForm:any = FormGroup;
   submitted = false;
   wrongPassword = false;
+  response:any;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -38,9 +39,10 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
             .subscribe(
                 res => {
-                  console.log(JSON.stringify(res))
+                    this.response = res
                     console.log("User is logged in");
                           localStorage.setItem('isloggedIn', 'true');
+                          localStorage.setItem('token', this.response.auth_token);
                           localStorage.setItem('email', this.registerForm.value.email);
                     this.router.navigateByUrl('/');
                 }
