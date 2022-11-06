@@ -36,8 +36,6 @@ export class AuthService {
 
   signup(email:string, password:string, firstName:string, lastName:string, phoneNumber:string, cellphoneNumber:string,
     streetAddress:string, city:string, state: string, zipCode:string) {
-    console.log(email, password, firstName, lastName, phoneNumber, cellphoneNumber,
-      streetAddress, city, state, zipCode)
     return this.http.post('http://127.0.0.1:5000/register', {email, password, firstName, lastName, phoneNumber, cellphoneNumber,
     streetAddress, city, state, zipCode})
   }
