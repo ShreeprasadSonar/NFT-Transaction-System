@@ -17,27 +17,12 @@ export class AuthService {
                 }
               }
 
-  // login(email:string, pass:string){
-  //   // ref https://blog.angular-university.io/angular-jwt-authentication/
-
-  //   if(email == 'admin@admin.com' && pass == 'admin'){
-  //     this.isloggedIn = true
-  //     localStorage.setItem('isloggedIn', 'true');
-  //     localStorage.setItem('email', email);
-  //     return 'loggedIn'
-  //   }  else {
-  //     return 'notloggedIN'
-  //   }
-  // }
-
   login(email:string, password:string ) {
     return this.http.post('http://127.0.0.1:5000/login', {email, password})
   }
 
   signup(email:string, password:string, firstName:string, lastName:string, phoneNumber:string, cellphoneNumber:string,
     streetAddress:string, city:string, state: string, zipCode:string) {
-    console.log(email, password, firstName, lastName, phoneNumber, cellphoneNumber,
-      streetAddress, city, state, zipCode)
     return this.http.post('http://127.0.0.1:5000/register', {email, password, firstName, lastName, phoneNumber, cellphoneNumber,
     streetAddress, city, state, zipCode})
   }
