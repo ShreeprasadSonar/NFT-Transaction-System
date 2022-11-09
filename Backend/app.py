@@ -8,6 +8,7 @@ import phonenumbers
 import random
 import jwt
 from datetime import datetime, timedelta
+import requests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '004f2af45d3a4e161a7dd2d17fdae47f'
@@ -17,10 +18,13 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_DB'] = 'NFT_System'
 mysql = MySQL(app)
 
-#Server_Session = Session(app)
 
 CORS(app, support_credentials=True)
 
+r = requests.get("http://api.coinlayer.com/api/live?access_key=dd61c88c20c658209ab9639b8a5e29a9")
+responses = r.json()
+ethValue = responses['rates']['ETH']
+ 
 def randN(N):
 	min = pow(10, N-1)
 	max = pow(10, N) - 1
@@ -55,19 +59,18 @@ def login():
             token = token.encode().decode('UTF-8')
             msg = 'Logged in Successfully'
             responseObject = {
-                    'status': 'success',
-                    'message': msg,
-                    'auth_token': token
-                }
+                'status': 'success',
+                'message': msg,
+                'auth_token': token
+            }
             return jsonify(responseObject), 200
-            #return render_template('dashboard.html', msg = msg)
         else:
             responseObject = {
-                    'status': 'fail',
-                    'message': 'Incorrect Username or Password.',
-                }
+                'status': 'fail',
+                'message': 'Incorrect Username or Password.'
+            }
             return jsonify(responseObject), 401   
-            #return render_template('login.html', msg = msg)
+
             
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/register', methods=['GET', 'POST'])
@@ -92,7 +95,6 @@ def register():
         priv = secrets.token_hex(32)
         private_key = "0x" + priv
         acct = Account.from_key(private_key)
-        #print("Address:", acct.address)
         cursor.execute('SELECT * FROM TRADER WHERE email = % s', (email,))
         account = cursor.fetchone()
         if account:
@@ -106,14 +108,23 @@ def register():
         elif not password or not email or not firstName or not lastName or not phone or not cell_phone or not city or not zipcode or not street_address or not state:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute("INSERT INTO TRADER (t_id, t_name, t_lastname, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, firstName, lastName, password, 40.25, phone, cell_phone, email, 'SILVER', acct.address, 0))
+            cursor.execute("INSERT INTO TRADER (t_id, t_name, t_lastname, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, firstName, lastName, password, 0.0, phone, cell_phone, email, 'SILVER', acct.address, 0))
             cursor.execute("INSERT INTO ADDRESS (t_id, city, state, st_add, zipcode) VALUES (% s,% s, % s, % s, % s)", (trader_id, city, state, street_address, zipcode))
             mysql.connection.commit()
-            msg = 'You have successfully registered !'
-            return jsonify({"Success":"SignUp Successful"}), 200
-            #return redirect(url_for('login'), msg = msg)
-        return jsonify({"Failed":"Incorrect Details Entered"}), 401
-        #return redirect(url_for('register'), msg = msg)
+            msg = 'You have successfully registered!'
+            responseObject = {
+                'status': 'Success',
+                'message': msg
+            }
+            return jsonify(responseObject), 200
+        
+        msg = 'Incorrect SignUp Details Entered'
+        responseObject = {
+            'status': 'fail',
+            'message': msg
+        }
+        return jsonify(responseObject), 401
+
 
 @app.route('/homepage', methods=['GET'])
 def dashboard():
