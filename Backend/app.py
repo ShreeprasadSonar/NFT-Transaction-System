@@ -29,7 +29,7 @@ def randN(N):
 	min = pow(10, N-1)
 	max = pow(10, N) - 1
 	return random.randint(min, max)
-
+    
 @app.before_request
 def before_request():
     g.user = None
@@ -84,7 +84,6 @@ def login():
 def register():
         msg = ''
         req = request.get_json()
-        print(req)
         firstName = req['firstName']
         lastName = req['lastName']
         email = req['email']
@@ -132,7 +131,25 @@ def register():
         }
         return jsonify(responseObject), 401
 
-
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/get_image_url', methods=['GET', 'POST'])
+def get_image_url():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT name, URL FROM NFT')
+    rows = cursor.fetchone()
+    if(rows != None):
+        data = {"NFT_name" : rows[0], "imageURL" : rows[1]}
+        responseObject = {
+            'status': 'Success',
+            'message': data
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 401
+    
 @app.route('/homepage', methods=['GET'])
 def dashboard():
     if not g.user:
