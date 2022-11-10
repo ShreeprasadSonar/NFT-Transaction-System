@@ -11,6 +11,16 @@
                 <h3 class="login-heading mb-4">Welcome back!</h3>
                 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                   <div class="form-floating mb-3">
+                    <div class="form-floating mb-3">
+                      <select class="form-control" id="college" formControlName="type" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.type.errors }"  id="inputType4" required>
+                        <option value="trader">Trader</option>
+                        <option value="Manager">Manager</option>
+                      </select>
+                      <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+                        <div *ngIf="f.type.errors.required">Type of login is required</div>
+                     </div>
+                      <label for="floatingInput">Type of login</label>
+                    </div>
                     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  id="inputEmail4">
                     <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                       <div *ngIf="f.email.errors.required">Email is required</div>
