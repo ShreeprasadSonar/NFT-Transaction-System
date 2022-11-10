@@ -1,4 +1,7 @@
 USE nft_system;
+DROP TABLE NFT_TRANSACTION;
+DROP TABLE NFT;
+CREATE TABLE NFT (t_id varchar(10),NFT_id varchar(10),NFT_add VARCHAR(50),NFT_value DOUBLE(10,3),name varchar(50),sell_add varchar(50),URL VARCHAR(2083), Primary KEY (NFT_id), FOREIGN KEY (t_id) REFERENCES TRADER(t_id));
 INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('1852569665','e83e58a54799f35ab9e64f758b1688f6467d1fffd9','5.6','superrare','E7B674F3C31E28DA6BE6BA56AEC47D6D425C008C1C','https://drive.google.com/file/d/1wjkJ1am2y1rO4075nrPvCPjDop9M_E_B/view?usp=sharing');
 INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('9630829370','98560888802222008888022220088880222201ffd9','9.5','rootstrap','E7B674F3C31E28DA6BE6BA56AEC47D6D425C008C1C','https://drive.google.com/file/d/1dsOt8iEkAhEN0c7hOwihT0RQ_gHjWztl/view?usp=sharing');
 INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('7870524649','301980cc06603301980cc0660330241925943fffd9','7.2','zenledger','E7B674F3C31E28DA6BE6BA56AEC47D6D425C008C1C','https://drive.google.com/file/d/1FzrupPBSOREATAGmhZXtMQF5oZ2jcotE/view?usp=sharing');
@@ -14,4 +17,8 @@ INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('5318531
 INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('9861884088','0000000000000000000000000000000000003fffd9','1.4','homejab','E7B674F3C31E28DA6BE6BA56AEC47D6D425C008C1C','https://drive.google.com/file/d/1ezf0kPFVfjeKrsFkh_el7FQTmsrujOlx/view?usp=sharing');
 INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('9130383385','3867ee76fc1082404040404040404040404040ffd9','4.6','boredapes','E7B674F3C31E28DA6BE6BA56AEC47D6D425C008C1C','https://drive.google.com/file/d/1V5jGzY9-asnb9q12XaReD7733qyrVbrR/view?usp=sharing');
 INSERT INTO NFT (NFT_id ,NFT_add ,NFT_value ,name ,sell_add,URL) VALUES('7519203883','0a18215328220820a208200802008020174807ffd9','9.8','cryptopunks','E7B674F3C31E28DA6BE6BA56AEC47D6D425C008C1C','https://drive.google.com/file/d/11l9c82Xn4AIvp_eFPMl7RUXyHJbvCGP3/view?usp=sharing');
+CREATE TABLE NFT_TRANSACTION (t_id varchar(10),NFT_id varchar(10),t_date_time DATETIME,com_rate DOUBLE(5,3),status varchar(10),buyer_eth_add varchar(50),seller_eth_add varchar(50),mem_type varchar(10),nft_add varchar(50),t_value DOUBLE(10,3),nft_trans_id varchar(10),URL VARCHAR(2083), Primary KEY (nft_trans_id), FOREIGN KEY (t_id) REFERENCES TRADER(t_id),FOREIGN KEY (NFT_id) REFERENCES NFT(NFT_id));
+
+
+
 
