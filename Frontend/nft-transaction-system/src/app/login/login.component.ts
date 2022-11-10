@@ -35,8 +35,9 @@ export class LoginComponent implements OnInit {
       //               }
       //           );
       // this.cstatus = this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
-      if (this.registerForm.value.email && this.registerForm.value.password) {
-        this.authService.login(this.registerForm.value.email, this.registerForm.value.password)
+      if (this.registerForm.value.email && this.registerForm.value.password && this.registerForm.value.type) {
+        console.log(this.registerForm.value.email, this.registerForm.value.password, this.registerForm.value.type)
+        this.authService.login(this.registerForm.value.email, this.registerForm.value.password, this.registerForm.value.type)
             .subscribe(
                 res => {
                     this.response = res
@@ -65,7 +66,8 @@ export class LoginComponent implements OnInit {
     }
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
+      type: ['', [Validators.required]]
       });
   }
 

@@ -17,8 +17,8 @@ export class AuthService {
                 }
               }
 
-  login(email:string, password:string ) {
-    return this.http.post('http://127.0.0.1:5000/login', {email, password})
+  login(email:string, password:string, type: string ) {
+    return this.http.post('http://127.0.0.1:5000/login', {email, password, type})
   }
 
   signup(email:string, password:string, firstName:string, lastName:string, phoneNumber:string, cellphoneNumber:string,
