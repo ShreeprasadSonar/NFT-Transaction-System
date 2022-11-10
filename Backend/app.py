@@ -46,8 +46,12 @@ def login():
         req = request.get_json()
         email = req['email']
         password = req['password']
+        type = req['type']
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT email, pass FROM TRADER WHERE email = % s AND pass = % s", (email, password, ))
+        if (type == 'trader'):
+            cursor.execute("SELECT email, pass FROM TRADER WHERE email = % s AND pass = % s", (email, password, ))
+        else:
+            cursor.execute("SELECT Email, password FROM MANAGER WHERE Email = % s AND password = % s", (email, password, ))
         #rows = cursor.execute(query1)
         account = cursor.fetchone()
         if account:
@@ -57,7 +61,10 @@ def login():
                 'exp': datetime.utcnow() + timedelta(hours=24)
             }, app.config['SECRET_KEY'])
             token = token.encode().decode('UTF-8')
-            msg = 'Logged in Successfully'
+            if(type == 'trader'):
+                msg = 'Trader logged in Successfully'
+            else:
+                msg = 'Manager logged in Successfully'
             responseObject = {
                 'status': 'success',
                 'message': msg,
