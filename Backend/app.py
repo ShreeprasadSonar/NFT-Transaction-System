@@ -91,6 +91,7 @@ def register():
         phone = req['phoneNumber']
         cell_phone = req['cellphoneNumber']
         phone = '+' + phone
+        cell_phone = '+' + cell_phone
         check_phone = phonenumbers.parse(phone)
         city = req['city']
         trader_id = randN(10)
@@ -137,11 +138,17 @@ def get_image_url():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT name, NFT_value, URL FROM NFT')
     rows = cursor.fetchall()
-    print(rows)
     if(rows != None):
+        data = []
+        for row in rows:
+            data.append({
+                'name': row[0],
+                'NFT_value': row[1],
+                'Image_URL' : row[2]
+            })
         responseObject = {
             'status': 'Success',
-            'message': rows
+            'message': data
         }
         return jsonify(responseObject), 200
     responseObject = {
@@ -154,9 +161,23 @@ def get_image_url():
 @app.route('/getTTransDetails', methods=['GET', 'POST'])
 def get_ttrans_details():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM TRADER')
-    rows = cursor.fetchall()
-    
+    cursor.execute('SELECT * FROM NFT_TRANSACTION')
+    nft_trans = cursor.fetchall()
+    cursor.execute('SELECT * FROM FIAT_TRANSACTIONS')
+    fiat_trans = cursor.fetchall()
+    if(nft_trans != None or fiat_trans != None ):
+        responseObject = {
+            'status': 'Success',
+            'nft_trans': nft_trans,
+            'fiat_trans': fiat_trans,
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 401
+
 @app.route('/homepage', methods=['GET'])
 def dashboard():
     if not g.user:
