@@ -132,16 +132,16 @@ def register():
         return jsonify(responseObject), 401
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
-@app.route('/get_image_url', methods=['GET', 'POST'])
+@app.route('/getnfts', methods=['GET', 'POST'])
 def get_image_url():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT name, URL FROM NFT')
-    rows = cursor.fetchone()
+    rows = cursor.fetchall()
+    print(rows)
     if(rows != None):
-        data = {"NFT_name" : rows[0], "imageURL" : rows[1]}
         responseObject = {
             'status': 'Success',
-            'message': data
+            'message': rows
         }
         return jsonify(responseObject), 200
     responseObject = {
