@@ -135,7 +135,7 @@ def register():
 @app.route('/getnfts', methods=['GET', 'POST'])
 def get_image_url():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT name, URL FROM NFT')
+    cursor.execute('SELECT name, NFT_value, URL FROM NFT')
     rows = cursor.fetchall()
     print(rows)
     if(rows != None):
@@ -149,6 +149,13 @@ def get_image_url():
         'message': 'No Data found'
     }
     return jsonify(responseObject), 401
+
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/getTTransDetails', methods=['GET', 'POST'])
+def get_ttrans_details():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM TRADER')
+    rows = cursor.fetchall()
     
 @app.route('/homepage', methods=['GET'])
 def dashboard():
