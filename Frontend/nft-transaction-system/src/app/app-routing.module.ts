@@ -7,6 +7,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SignupComponent } from './signup/signup.component';
+import { TradeComponent } from './trade/trade.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'signup', component: SignupComponent},
+  { path: 'trade', component: TradeComponent, canActivate:[AuthGuard]},
 ];
 
 @NgModule({
