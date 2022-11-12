@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 .cards-list {
   z-index: 0;
   width: 100%;
@@ -33,11 +34,29 @@
 .card .card_title {
   text-align: center;
   border-radius: 0px 0px 40px 40px;
-  font-family: sans-serif;
   font-weight: bold;
-  font-size: 30px;
-  margin-top: -80px;
+  color: black;
+  font-size: 20px;
   height: 40px;
+}
+
+p {
+  background-size: 200%;
+  background-image: linear-gradient(105deg, #D16BA5, #86A8E7, #5FFBF1, #86A8E7, #D16BA5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: text 5s linear infinite both;
+}
+
+@keyframes text {
+  from {
+    background-position: 0 0;
+  }
+  
+  to {
+    background-position: 200% 200%;
+  }
 }
 
 .card:hover {

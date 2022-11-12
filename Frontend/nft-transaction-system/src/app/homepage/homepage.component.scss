@@ -122,4 +122,9 @@
         max-width: 500px;
         max-height: 500px;
     }
+    .nftCollectionImage:hover{
+        transform: scale(1.1);
+        rotate: (10deg);
+        transition: all 0.4s ease;
+    }
 }
