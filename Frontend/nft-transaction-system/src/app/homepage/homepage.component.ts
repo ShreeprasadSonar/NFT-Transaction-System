@@ -17,6 +17,6 @@ export class HomepageComponent implements OnInit {
   }
 
   goto(link:string){
-    this.router.navigate([link]);
+    this.router.navigateByUrl('/trade')
   }
 }

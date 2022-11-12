@@ -28,7 +28,13 @@ export class AuthService {
   }
 
   isAuthenticated(){
-    return this.isloggedIn;
+    if(localStorage.getItem('isloggedIn') == 'true'){
+      this.isloggedIn = true
+    } else {
+      this.isloggedIn = false
+    }
+    return this.isloggedIn
+    
   }
 
   logout(){

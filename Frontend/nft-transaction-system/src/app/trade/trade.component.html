@@ -1,1 +1,11 @@
-<p>trade works!</p>
+<div class="cards-list">
+
+  <div *ngFor="let nft of nfts" class="card">
+    <div class="card_image"> <img src="{{nft.Image_URL}}" /> </div>
+    <div class="card_title title-white">
+      <p>{{nft.name}}</p>
+      <p>ETH {{nft.NFT_value}}</p>
+    </div>
+  </div>
+
+</div>
