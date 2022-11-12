@@ -91,6 +91,7 @@ def register():
         phone = req['phoneNumber']
         cell_phone = req['cellphoneNumber']
         phone = '+' + phone
+        cell_phone = '+' + cell_phone
         check_phone = phonenumbers.parse(phone)
         city = req['city']
         trader_id = randN(10)
@@ -132,13 +133,19 @@ def register():
         return jsonify(responseObject), 401
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
-@app.route('/get_image_url', methods=['GET', 'POST'])
+@app.route('/getnfts', methods=['GET', 'POST'])
 def get_image_url():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT name, URL FROM NFT')
-    rows = cursor.fetchone()
+    cursor.execute('SELECT name, NFT_value, URL FROM NFT')
+    rows = cursor.fetchall()
     if(rows != None):
-        data = {"NFT_name" : rows[0], "imageURL" : rows[1]}
+        data = []
+        for row in rows:
+            data.append({
+                'name': row[0],
+                'NFT_value': row[1],
+                'Image_URL' : row[2]
+            })
         responseObject = {
             'status': 'Success',
             'message': data
@@ -149,7 +156,28 @@ def get_image_url():
         'message': 'No Data found'
     }
     return jsonify(responseObject), 401
-    
+
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/getTTransDetails', methods=['GET', 'POST'])
+def get_ttrans_details():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM NFT_TRANSACTION')
+    nft_trans = cursor.fetchall()
+    cursor.execute('SELECT * FROM FIAT_TRANSACTIONS')
+    fiat_trans = cursor.fetchall()
+    if(nft_trans != None or fiat_trans != None ):
+        responseObject = {
+            'status': 'Success',
+            'nft_trans': nft_trans,
+            'fiat_trans': fiat_trans,
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 401
+
 @app.route('/homepage', methods=['GET'])
 def dashboard():
     if not g.user:
