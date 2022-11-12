@@ -15,7 +15,7 @@ export class TradeComponent implements OnInit {
 
   ngOnInit(): void {
       this.dataService.getNfts().subscribe((data:any) => {
-        this.nfts = data;
+        this.nfts = data.message;
         console.log(this.nfts);
       });
   }
