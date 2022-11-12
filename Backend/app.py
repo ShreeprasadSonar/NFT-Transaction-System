@@ -136,7 +136,7 @@ def register():
 @app.route('/getnfts', methods=['GET', 'POST'])
 def get_image_url():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT name, NFT_value, URL FROM NFT')
+    cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT')
     rows = cursor.fetchall()
     if(rows != None):
         data = []
@@ -144,7 +144,8 @@ def get_image_url():
             data.append({
                 'name': row[0],
                 'NFT_value': row[1],
-                'Image_URL' : row[2]
+                'NFT_add' : row[2],
+                'Image_URL' : row[3]
             })
         responseObject = {
             'status': 'Success',
