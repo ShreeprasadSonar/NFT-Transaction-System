@@ -16,7 +16,15 @@ export class HomepageComponent implements OnInit {
     // console.log(this.data.getData().toString())
   }
 
-  goto(link:string){
+  gotoTrade(){
     this.router.navigateByUrl('/trade')
+  }
+
+  gotoSignup(){
+    if(localStorage.getItem('isloggedIn') != 'true'){
+      this.router.navigateByUrl('/signup')
+    } else {
+      this.router.navigateByUrl('/trade')
+    }
   }
 }
