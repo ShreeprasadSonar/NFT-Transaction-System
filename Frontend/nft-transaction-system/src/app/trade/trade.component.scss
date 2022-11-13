@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-.container-fluid{
+
+.container-fluid {
   overflow: hidden;
 }
+
 .cards-list {
-  z-index: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -12,7 +13,7 @@
 
 .search-hero {
   max-width: 20%;
-  margin:auto;
+  margin: auto;
   text-align: center;
 }
 
@@ -21,6 +22,8 @@
   width: 300px;
   height: 300px;
   border-radius: 40px;
+  border: none;
+  background: transparent;
   cursor: pointer;
   transition: 0.4s;
 }
@@ -47,7 +50,8 @@
   height: 40px;
 }
 
-p, h1 {
+p,
+h1 {
   background-size: 200%;
   background-image: linear-gradient(105deg, #D16BA5, #86A8E7, #5FFBF1, #86A8E7, #D16BA5);
   background-clip: text;
@@ -60,16 +64,23 @@ p, h1 {
   from {
     background-position: 0 0;
   }
-  
+
   to {
     background-position: 200% 200%;
   }
 }
 
 .card:hover {
-  transform: scale(0.9, 0.9);
-  box-shadow: 5px 5px 30px 15px #D16BA5, -5px -5px 30px 15px #5FFBF1;
-  transition: all 0.4s ease;
+  img{
+    transform: scale(0.8, 0.8);
+    box-shadow: 5px 5px 30px 15px #D16BA5, -5px -5px 30px 15px #5FFBF1;
+    transition: all 0.4s ease;
+  }
+  .nft_add{
+    transform: scale(1.1, 1.1);
+    transition: all 0.4s ease;
+    top: -355px !important;
+  }
 }
 
 .title-white {
