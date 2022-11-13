@@ -21,10 +21,22 @@ mysql = MySQL(app)
 
 CORS(app, support_credentials=True)
 
-r = requests.get("http://api.coinlayer.com/api/live?access_key=dd61c88c20c658209ab9639b8a5e29a9")
-responses = r.json()
-ethValue = responses['rates']['ETH']
- 
+def get_current_data(from_sym='BTC', to_sym='USD', exchange=''):
+    url = 'https://min-api.cryptocompare.com/data/price'    
+    
+    parameters = {'fsym': from_sym,
+                  'tsyms': to_sym }
+    
+    if exchange:
+        parameters['e'] = exchange
+        
+    response = requests.get(url, params=parameters)   
+    data = response.json()
+    
+    return data
+ETH_value = get_current_data('ETH','USD','coinbase')
+print(ETH_value['USD'])
+
 def randN(N):
 	min = pow(10, N-1)
 	max = pow(10, N) - 1
@@ -115,7 +127,7 @@ def register():
         elif not password or not email or not firstName or not lastName or not phone or not cell_phone or not city or not zipcode or not street_address or not state:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute("INSERT INTO TRADER (t_id, t_name, t_lastname, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, firstName, lastName, password, 0.0, phone, cell_phone, email, 'SILVER', acct.address, 0))
+            cursor.execute("INSERT INTO TRADER (t_id, t_name, t_lastname, pass, fiat_amt, Ph_no, cell_no, email, mem_type, eth_add, eth_cnt) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, firstName, lastName, password, 500.00, phone, cell_phone, email, 'SILVER', acct.address, 0))
             cursor.execute("INSERT INTO ADDRESS (t_id, city, state, st_add, zipcode) VALUES (% s,% s, % s, % s, % s)", (trader_id, city, state, street_address, zipcode))
             mysql.connection.commit()
             msg = 'You have successfully registered!'
@@ -161,16 +173,40 @@ def get_image_url():
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getTTransDetails', methods=['GET', 'POST'])
 def get_ttrans_details():
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM NFT_TRANSACTION')
-    nft_trans = cursor.fetchall()
-    cursor.execute('SELECT * FROM FIAT_TRANSACTIONS')
-    fiat_trans = cursor.fetchall()
-    if(nft_trans != None or fiat_trans != None ):
+    req = request.get_json()
+    if(req):
+        trader_id = req['trader_id']
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT nft_trans_id, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s', (trader_id,))
+        nft_trans = cursor.fetchall()
+        cursor.execute('SELECT * FROM FIAT_TRANSACTIONS WHERE t_id = % s', (trader_id,))
+        fiat_trans = cursor.fetchall()
+    else:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT nft_trans_id, t_value, t_date_time, status FROM NFT_TRANSACTION')
+        nft_trans = cursor.fetchall()
+        cursor.execute('SELECT ft_id, amount, type FROM FIAT_TRANSACTIONS')
+        fiat_trans = cursor.fetchall()
+    if(nft_trans != None or fiat_trans != None):
+        nft_data = []
+        for row in nft_trans:
+            nft_data.append({
+                'nft_trans_id': row[0],
+                't_value' : row[1],
+                't_date_time' : row[2],
+                'status' : row[3]
+            })
+        fiat_data = []
+        for row1 in fiat_trans:
+            fiat_data.append({
+                'ft_id': row1[0],
+                'amount': row1[1],
+                'type' : row1[2]
+            })
         responseObject = {
             'status': 'Success',
-            'nft_trans': nft_trans,
-            'fiat_trans': fiat_trans,
+            'nft_trans': nft_data,
+            'fiat_trans': fiat_data,
         }
         return jsonify(responseObject), 200
     responseObject = {
@@ -179,10 +215,21 @@ def get_ttrans_details():
     }
     return jsonify(responseObject), 401
 
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/buynfts', methods=['GET', 'POST'])
+def buynfts():
+    msg = ''
+    req = request.get_json()
+    trader_id = req['trader_id']
+    nft_id = req['nft_id']
+    nft_value = req['nft_value']
+    comm_type = req['comm_type']
+    
+    
 @app.route('/homepage', methods=['GET'])
 def dashboard():
     if not g.user:
-        return redirect(url_for('login')) 
+        return redirect(url_for('login'))
     
     return render_template('homepage.html')
 
