@@ -7,12 +7,15 @@ import { Router } from '@angular/router';
   templateUrl: './trade.component.html',
   styleUrls: ['./trade.component.scss']
 })
+
 export class TradeComponent implements OnInit {
   nfts:any;
+  public searchFilter: any = '';
+  searchText = '';
 
   constructor(private dataService: DataService,
               private router: Router ) { }
-
+  
   ngOnInit(): void {
       this.dataService.getNfts().subscribe((data:any) => {
         this.nfts = data.message;

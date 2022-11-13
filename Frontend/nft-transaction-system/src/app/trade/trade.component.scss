@@ -1,11 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+.container-fluid{
+  overflow: hidden;
+}
 .cards-list {
   z-index: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  margin-top: 100px;
+}
+
+.search-hero {
+  max-width: 20%;
+  padding-bottom: 20px;
+  margin:auto;
+  text-align: center;
 }
 
 .card {

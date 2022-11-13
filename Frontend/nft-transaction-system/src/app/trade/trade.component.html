@@ -1,11 +1,18 @@
-<div class="cards-list">
-
-  <div *ngFor="let nft of nfts" class="card">
-    <div class="card_image"> <img src="{{nft.Image_URL}}" /> </div>
-    <div class="card_title title-white">
-      <p style="margin-top: -300px; margin-right: 150px;">{{nft.name}}</p>
-      <p style="margin-top: 230px; margin-right: -200px;">ETH {{nft.NFT_value}}</p>
-    </div>
+<div class="container-fluid">
+  <div class="search-hero" style=" margin-top: 100px;">
+    <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Start searching for a nft by id or name">
   </div>
-
+  
+  <div class="cards-list">
+  
+    <div *ngFor="let nft of nfts | searchFilter:searchText" class="card">
+      <div class="card_image"> <img src="{{nft.Image_URL}}" /> </div>
+      <div class="card_title title-white">
+        <p style="margin-top: -300px; margin-right: 150px;">{{nft.name}}</p>
+        <p style="margin-top: 230px; margin-right: -200px;">ETH {{nft.NFT_value}}</p>
+      </div>
+    </div>
+  
+  </div>
 </div>
+
