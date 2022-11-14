@@ -147,6 +147,13 @@ def register():
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getnfts', methods=['GET', 'POST'])
 def get_image_url():
+    # req = request.get_json()
+    # if(req):
+    #     trader_id = req['trader_id']
+    #     cursor = mysql.connection.cursor()
+    #     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
+    #     rows = cursor.fetchall()
+    # else:
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT')
     rows = cursor.fetchall()
