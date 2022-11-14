@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SignupComponent } from './signup/signup.component';
 import { TradeComponent } from './trade/trade.component';
+import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 
 
 const routes: Routes = [
@@ -15,8 +16,10 @@ const routes: Routes = [
   { path: 'homepage', component: HomepageComponent},
   { path: 'login', component: LoginComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
+  //{ path: 'dashboard', component: DashboardComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'trade', component: TradeComponent, canActivate:[AuthGuard]},
+  { path: 'manager-dashboard', component: ManagerDashboardComponent},
 ];
 
 @NgModule({

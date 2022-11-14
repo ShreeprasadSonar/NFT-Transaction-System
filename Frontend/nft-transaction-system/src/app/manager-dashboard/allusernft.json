@@ -1,0 +1,35 @@
+[
+    
+    {
+        "NFT_Name":"NFT_1",
+        "Trans_ID":"Udsx12345",
+        "NFT_Value":25000,
+        "Status":"Sucess",
+        "Trans_date_time":"12-03-2000"
+
+
+    },
+    
+    {
+        "NFT_Name":"NFT_1",
+        "Trans_ID":"Udsx12345",
+        "NFT_Value":25000,
+        "Status":"Sucess",
+        "Trans_date_time":"12-03-2000"
+
+    },
+
+    { "NFT_Name":"NFT_2",
+    "Trans_ID":"Udsx12345",
+    "NFT_Value":25000,
+    "Status":"Failed",
+    "Trans_date_time":"18-08-2020"},
+
+    { "NFT_Name":"NFT_3",
+    "Trans_ID":"Udsx12345",
+    "NFT_Value":25000,
+    "Status":"Sucess",
+    "Trans_date_time":"09-05-2011"}
+
+
+]

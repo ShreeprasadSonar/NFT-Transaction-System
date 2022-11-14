@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { HeaderComponent } from './header/header.component';
@@ -14,6 +13,8 @@ import { SignupComponent } from './signup/signup.component';
 import { TradeComponent } from './trade/trade.component';
 
 import { SearchFilterPipe } from './search-filter.pipe';
+import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
+
 
 @NgModule({
   declarations: [
@@ -25,13 +26,14 @@ import { SearchFilterPipe } from './search-filter.pipe';
     SignupComponent,
     TradeComponent,
     SearchFilterPipe,
+    ManagerDashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

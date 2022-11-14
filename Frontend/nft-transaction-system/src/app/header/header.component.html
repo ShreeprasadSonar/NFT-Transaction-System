@@ -21,6 +21,7 @@
           <div class="dropdown-menu">
             <a class="dropdown-item" *ngIf="this.readisloggedIn() == true" href="/dashboard"> Dashboard </a>
             <a class="dropdown-item" *ngIf="this.readisloggedIn() != true" href="/login"> Login </a>
+            <a class="dropdown-item" *ngIf="this.readisloggedIn() == true" href="/transactions"> View Transactions </a>
             <a class="dropdown-item" *ngIf="this.readisloggedIn() == true" style="cursor: pointer" (click)="this.logout()"> Logout </a>
           </div>
         </li>

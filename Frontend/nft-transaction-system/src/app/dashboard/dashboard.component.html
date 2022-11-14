@@ -1,1 +1,56 @@
-<p>dashboard works!</p>
+<div class="card-middle">
+  <div class="container text-center">
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Fait Currency</h5>
+              <p class="card-text">This was the Amount in Dollars which is available!</p>
+              <a href="#" class="btn btn-primary">Add More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Ethereum Count</h5>
+              <p class="card-text">The Ethereum Count which is available!</p>
+              <a href="#" class="btn btn-primary">Add More</a>
+            </div>
+          </div>
+        </div>
+
+    </div>
+              <!-- table -->
+              <br> <br>
+              <table class="table table-image">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">NFT Address</th>
+                    <th scope="col">NFT Name</th>
+                    <th scope="col">NFT Value (ETH)</th>
+                    <th scope="col">NFT Image</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of Users">
+                    <td>{{user.NFT_Address}}</td>
+                    <td>{{user.Name}}</td>
+                    <td>{{user.NFT_Value}}</td>
+                    <td><img class="w-25 h-25"  src="https://drive.google.com/uc?export=view&id=0B6wwyazyzml-OGQ3VUo0Z2thdmc" alt=""></td>
+                  </tr>
+                   </tbody>
+              </table>
+              
+<br><br>
+
+<div>
+ <button type="button" class="btn btn-success">Add New NFT's</button>
+ <button type="button" class="btn btn-danger">Cancel Payment</button>
+
+</div>
+
+<br>
+  </div>
+</div>
+

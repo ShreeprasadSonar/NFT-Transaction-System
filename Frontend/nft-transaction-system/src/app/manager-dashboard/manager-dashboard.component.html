@@ -1,0 +1,34 @@
+<div class="card-middle" >
+    <p>Welcome Manager!</p>
+                <!-- table -->
+                <br>
+                <div>
+                <button (click)="toggleData()">Generate Data</button>
+                    
+                </div>
+                <div *ngIf="toDisplay">
+                    <br>
+                <table class="table table-image">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">NFT_Name</th>
+                      <th scope="col">Trans_ID</th>
+                      <th scope="col">NFT_Value</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Trans_date_time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let user of Users">
+                      <td>{{user.NFT_Name}}</td>
+                      <td>{{user.Trans_ID}}</td>
+                      <td>{{user.NFT_Value}}</td>
+                      <td>{{user.Status}}</td>
+                      <td>{{user.Trans_date_time}}</td>
+                    </tr>
+                     </tbody>
+                </table>
+                </div>
+
+                
+  </div>

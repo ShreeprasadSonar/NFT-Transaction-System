@@ -1,0 +1,25 @@
+[
+    
+    {
+    "Name":"NFT-1",
+    "NFT_Address":"12uzxluscjbxlk",
+    "NFT_Value":25000
+},
+{
+    "Name":"NFT-2",
+    "NFT_Address":"12uzxluscjbxlk34",
+    "NFT_Value":2500
+},
+{
+    "Name":"NFT-3",
+    "NFT_Address":"12uzxluscjbxlk1",
+    "NFT_Value":5000
+},
+{
+    "Name":"NFT-4",
+    "NFT_Address":"12uzxluscjbxlk56",
+    "NFT_Value":2000
+}
+
+
+]
