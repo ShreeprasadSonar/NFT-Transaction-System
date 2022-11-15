@@ -41,10 +41,10 @@ export class LoginComponent implements OnInit {
                 res => {
                     this.response = res
                     console.log("User is logged in");
-                          localStorage.setItem('isloggedIn', 'true');
-                          localStorage.setItem('token', this.response.auth_token);
-                          localStorage.setItem('email', this.registerForm.value.email);
-                    this.router.navigateByUrl('/');
+                    localStorage.setItem('isloggedIn', 'true');
+                    localStorage.setItem('token', this.response.auth_token);
+                    localStorage.setItem('email', this.registerForm.value.email);
+                    this.router.navigateByUrl('/dashboard');
                 }
             );
     }
