@@ -44,7 +44,12 @@ export class LoginComponent implements OnInit {
                     localStorage.setItem('isloggedIn', 'true');
                     localStorage.setItem('token', this.response.auth_token);
                     localStorage.setItem('email', this.registerForm.value.email);
-                    this.router.navigateByUrl('/dashboard');
+                    localStorage.setItem('userType', this.registerForm.value.type);
+                    if(this.registerForm.value.type == 'Manager'){
+                      this.router.navigateByUrl('/manager-dashboard');
+                    } else{
+                      this.router.navigateByUrl('/dashboard');
+                    }
                 }
             );
     }
