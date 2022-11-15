@@ -21,21 +21,21 @@ mysql = MySQL(app)
 
 CORS(app, support_credentials=True)
 
-def get_current_data(from_sym='BTC', to_sym='USD', exchange=''):
-    url = 'https://min-api.cryptocompare.com/data/price'    
+# def get_current_data(from_sym='BTC', to_sym='USD', exchange=''):
+#     url = 'https://min-api.cryptocompare.com/data/price'    
     
-    parameters = {'fsym': from_sym,
-                  'tsyms': to_sym }
+#     parameters = {'fsym': from_sym,
+#                   'tsyms': to_sym }
     
-    if exchange:
-        parameters['e'] = exchange
+#     if exchange:
+#         parameters['e'] = exchange
         
-    response = requests.get(url, params=parameters)   
-    data = response.json()
+#     response = requests.get(url, params=parameters)   
+#     data = response.json()
     
-    return data
-ETH_value = get_current_data('ETH','USD','coinbase')
-print(ETH_value['USD'])
+#     return data
+# ETH_value = get_current_data('ETH','USD','coinbase')
+#print(ETH_value['USD'])
 
 def randN(N):
 	min = pow(10, N-1)
@@ -61,9 +61,9 @@ def login():
         type = req['type']
         cursor = mysql.connection.cursor()
         if (type == 'trader'):
-            cursor.execute("SELECT email, pass FROM TRADER WHERE email = % s AND pass = % s", (email, password, ))
+            cursor.execute("SELECT t_id, email, pass FROM TRADER WHERE email = % s AND pass = % s", (email, password, ))
         else:
-            cursor.execute("SELECT Email, password FROM MANAGER WHERE Email = % s AND password = % s", (email, password, ))
+            cursor.execute("SELECT M_id, Email, password FROM MANAGER WHERE Email = % s AND password = % s", (email, password, ))
         #rows = cursor.execute(query1)
         account = cursor.fetchone()
         if account:
@@ -80,7 +80,8 @@ def login():
             responseObject = {
                 'status': 'success',
                 'message': msg,
-                'auth_token': token
+                'auth_token': token,
+                'id': account[0]
             }
             return jsonify(responseObject), 200
         else:
@@ -146,14 +147,7 @@ def register():
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getnfts', methods=['GET', 'POST'])
-def get_image_url():
-    # req = request.get_json()
-    # if(req):
-    #     trader_id = req['trader_id']
-    #     cursor = mysql.connection.cursor()
-    #     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
-    #     rows = cursor.fetchall()
-    # else:
+def getnfts():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT')
     rows = cursor.fetchall()
@@ -178,30 +172,54 @@ def get_image_url():
     return jsonify(responseObject), 401
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
-@app.route('/getTTransDetails', methods=['GET', 'POST'])
-def get_ttrans_details():
+@app.route('/getTraderNfts', methods=['GET', 'POST'])
+def getTraderNfts():
     req = request.get_json()
-    if(req):
-        trader_id = req['trader_id']
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT nft_trans_id, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s', (trader_id,))
-        nft_trans = cursor.fetchall()
-        cursor.execute('SELECT * FROM FIAT_TRANSACTIONS WHERE t_id = % s', (trader_id,))
-        fiat_trans = cursor.fetchall()
-    else:
-        cursor = mysql.connection.cursor()
-        cursor.execute('SELECT nft_trans_id, t_value, t_date_time, status FROM NFT_TRANSACTION')
-        nft_trans = cursor.fetchall()
-        cursor.execute('SELECT ft_id, amount, type FROM FIAT_TRANSACTIONS')
-        fiat_trans = cursor.fetchall()
+    trader_id = req['trader_id']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
+    rows = cursor.fetchall()
+    if(rows != None):
+        data = []
+        for row in rows:
+            data.append({
+                'name': row[0],
+                'NFT_value': row[1],
+                'NFT_add' : row[2],
+                'Image_URL' : row[3]
+            })
+        responseObject = {
+            'status': 'Success',
+            'message': data
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 401
+     
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/getTTransHistory', methods=['GET', 'POST'])
+def get_ttrans_history():
+    req = request.get_json()
+    trader_id = req['trader_id']
+    datetime.strptime("21/12/2008", "%d/%m/%Y").strftime("%Y-%m-%d")
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s', (trader_id,))
+    nft_trans = cursor.fetchall()
+    cursor.execute('SELECT * FROM FIAT_TRANSACTIONS WHERE t_id = % s', (trader_id,))
+    fiat_trans = cursor.fetchall()
+
     if(nft_trans != None or fiat_trans != None):
         nft_data = []
         for row in nft_trans:
             nft_data.append({
                 'nft_trans_id': row[0],
-                't_value' : row[1],
-                't_date_time' : row[2],
-                'status' : row[3]
+                'name' : row[1],
+                't_value' : row[2],
+                't_date_time' : row[3],
+                'status' : row[4]
             })
         fiat_data = []
         for row1 in fiat_trans:
@@ -222,6 +240,74 @@ def get_ttrans_details():
     }
     return jsonify(responseObject), 401
 
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/getAllTrader_TransHistory', methods=['GET', 'POST'])
+def get_all_trader_trans_history():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION')
+    nft_trans = cursor.fetchall()
+    cursor.execute('SELECT ft_id, amount, type FROM FIAT_TRANSACTIONS')
+    fiat_trans = cursor.fetchall()
+    if(nft_trans != None or fiat_trans != None):
+        nft_data = []
+        for row in nft_trans:
+            nft_data.append({
+                'nft_trans_id': row[0],
+                'name' : row[1],
+                't_value' : row[2],
+                't_date_time' : row[3],
+                'status' : row[4]
+            })
+        fiat_data = []
+        for row1 in fiat_trans:
+            fiat_data.append({
+                'ft_id': row1[0],
+                'amount': row1[1],
+                'type' : row1[2]
+            })
+        responseObject = {
+            'status': 'Success',
+            'nft_trans': nft_data,
+            'fiat_trans': fiat_data,
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 401
+
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/transaction', methods=['GET', 'POST'])
+def addMoney():
+    msg = ''
+    req = request.get_json()
+    trader_id = req['t_id']
+    date_time = req['t_date_time']
+    amount = req['amount']
+    type = req['type']
+    status = req['status']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM TRADER WHERE t_id = % s', (trader_id,))
+    row = cursor.fetchone()
+    if row:
+        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s)", (trader_id, date_time, amount, status, type))
+        cursor.execute("UPDATE TRADER SET amount = %s WHERE t_id = %s", (amount, trader_id, ))
+        mysql.connection.commit()
+        msg = 'Data Successfully updated'
+        responseObject = {
+            'status': 'Success',
+            'message': msg
+            }
+        return jsonify(responseObject), 200
+        
+    msg = 'Some Error Occured while Entering the data'
+    responseObject = {
+        'status': 'fail',
+        'message': msg
+    }
+    return jsonify(responseObject), 401
+    
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/buynfts', methods=['GET', 'POST'])
 def buynfts():
