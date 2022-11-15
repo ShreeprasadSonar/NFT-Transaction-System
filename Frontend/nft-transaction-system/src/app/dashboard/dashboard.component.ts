@@ -37,6 +37,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.dataService.getTraderNfts().subscribe((data:any) => {
+      this.trade_nfts=data;
       console.log(this.trade_nfts);
     });
 

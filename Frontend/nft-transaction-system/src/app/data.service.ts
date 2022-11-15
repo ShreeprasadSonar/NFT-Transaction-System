@@ -33,7 +33,7 @@ export class DataService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
-
+      email: `Bearer ${localStorage.getItem('token')}`,
     });  
     return this.http.get('http://127.0.0.1:5000/getTraderNfts', { headers: headers });
   }
