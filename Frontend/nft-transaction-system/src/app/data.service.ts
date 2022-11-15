@@ -26,7 +26,7 @@ export class DataService {
       t_date_time: "25/06/2022 12 PM",
       status: "Active"
     });  
-    return this.http.get('http://127.0.0.1:5000/transaction', { headers: headers, email: localStorage.getItem('email') });
+    return this.http.get('http://127.0.0.1:5000/transaction', { headers: headers });
   }
 //example
   getTraderNfts(){
