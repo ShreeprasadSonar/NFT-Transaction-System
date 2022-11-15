@@ -4,7 +4,7 @@
         <div class="col-sm-12 col-md-6">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Fait Currency</h5>
+              <h5 class="card-title">Fiat Currency</h5>
               <p class="card-text">This was the Amount in Dollars which is available!</p>
               <a href="#" class="btn btn-primary">Add More</a>
             </div>
@@ -33,11 +33,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let user of Users">
-                    <td>{{user.NFT_Address}}</td>
-                    <td>{{user.Name}}</td>
-                    <td>{{user.NFT_Value}}</td>
-                    <td><img class="w-25 h-25"  src="https://drive.google.com/uc?export=view&id=0B6wwyazyzml-OGQ3VUo0Z2thdmc" alt=""></td>
+                  <tr *ngFor="let nft of trade_nfts">
+                    <td>{{nft.NFT_Address}}</td>
+                    <td>{{nft.Name}}</td>
+                    <td>{{nft.NFT_Value}}</td>
+                    <td><img class="w-25 h-25"  src={{nft.Image_URL}} alt=""></td>
                   </tr>
                    </tbody>
               </table>
