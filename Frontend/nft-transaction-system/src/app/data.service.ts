@@ -35,7 +35,8 @@ export class DataService {
     //   Authorization: `Bearer ${localStorage.getItem('token')}`,
     //   id: String()
     // });  
-    return this.http.post('http://127.0.0.1:5000/getTraderNfts', localStorage.getItem('id'));
+    console.log({id: localStorage.getItem('id')})
+    return this.http.post('http://127.0.0.1:5000/getTraderNfts', {id: localStorage.getItem('id')});
   }
 
   //example2
