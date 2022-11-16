@@ -172,10 +172,10 @@ def getnfts():
     return jsonify(responseObject), 401
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
-@app.route('/getTraderNfts', methods=['GET', 'POST'])
+@app.route('/getTraderNfts', methods=['POST'])
 def getTraderNfts():
     req = request.get_json()
-    trader_id = req['trader_id']
+    trader_id = req['id']
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
     rows = cursor.fetchall()
@@ -203,8 +203,7 @@ def getTraderNfts():
 @app.route('/getTTransHistory', methods=['GET', 'POST'])
 def get_ttrans_history():
     req = request.get_json()
-    trader_id = req['trader_id']
-    datetime.strptime("21/12/2008", "%d/%m/%Y").strftime("%Y-%m-%d")
+    trader_id = req['id']
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s', (trader_id,))
     nft_trans = cursor.fetchall()
@@ -244,6 +243,7 @@ def get_ttrans_history():
 @app.route('/getAllTrader_TransHistory', methods=['GET', 'POST'])
 def get_all_trader_trans_history():
     cursor = mysql.connection.cursor()
+    datetime.strptime("21/12/2008", "%d/%m/%Y").strftime("%Y-%m-%d")
     cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION')
     nft_trans = cursor.fetchall()
     cursor.execute('SELECT ft_id, amount, type FROM FIAT_TRANSACTIONS')
@@ -283,10 +283,11 @@ def addMoney():
     msg = ''
     req = request.get_json()
     trader_id = req['t_id']
-    date_time = req['t_date_time']
+    #date_time = req['t_date_time']
     amount = req['amount']
     type = req['type']
-    status = req['status']
+    #status = req['status']
+    #current 
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT * FROM TRADER WHERE t_id = % s', (trader_id,))
     row = cursor.fetchone()
