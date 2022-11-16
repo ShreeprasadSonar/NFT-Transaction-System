@@ -16,44 +16,28 @@ export class DataService {
     return this.http.get('http://127.0.0.1:5000/getnfts', { headers: headers });
   }
 
-  addEth(){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      amount: "10",
-      type: "ETH",
-      t_id: "897982743423423",
-      t_date_time: "25/06/2022 12 PM",
-      status: "Active"
-    });  
-    return this.http.get('http://127.0.0.1:5000/transaction', { headers: headers });
-  }
-//example
   getTraderNfts(){
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/json',
-    //   Authorization: `Bearer ${localStorage.getItem('token')}`,
-    //   id: String()
-    // });  
     const id = localStorage.getItem('id')
-    console.log({id: id})
     return this.http.post('http://127.0.0.1:5000/getTraderNfts', {id: id});
   }
 
-  //example2
-
-  transaction(){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      amount: "10",
-      type: "ETH",
-      t_id: "897982743423423",
-      t_date_time: "25/06/2022 12 PM",
-      status: "Active"
-    });  
-    return this.http.get('http://127.0.0.1:5000/transaction', { headers: headers });
+  transaction(amount: string, type: string){
+    const id = localStorage.getItem('id')
+    const amt = amount
+    const typ = type 
+    return this.http.post('http://127.0.0.1:5000/transaction', {id: id, amount: amt, type: typ});
   }
 
+  getAllTrader_TransHistory(from:Date, to: Date){
+    const id = localStorage.getItem('id')
+    const fm_date = from
+    const t_date = to
+    return this.http.post('http://127.0.0.1:5000/getAllTrader_TransHistory', {id: id, from: fm_date, to: t_date});
+  }
+
+  getTTransHistory(){
+    const id = localStorage.getItem('id')
+    return this.http.post('http://127.0.0.1:5000/getTTransHistory', {id: id});
+  }
 
 }

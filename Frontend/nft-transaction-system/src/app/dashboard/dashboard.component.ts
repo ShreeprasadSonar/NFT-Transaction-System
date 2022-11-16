@@ -32,21 +32,14 @@ export class DashboardComponent implements OnInit {
               private router: Router ) { }
   
   ngOnInit(): void {
-    this.dataService.addEth().subscribe((data:any) => {
-      console.log(data);
-    });
-
     this.dataService.getTraderNfts().subscribe((data:any) => {
       this.trade_nfts=data;
       console.log(this.trade_nfts);
     });
 
-    this.dataService.transaction().subscribe((data:any) =>{
-
-      this.add_money=data.message;
-      console.log(this.add_money)
+    this.dataService.getTTransHistory().subscribe((data:any) =>{
+      console.log(data);
     })
-
   }
 
 }
