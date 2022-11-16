@@ -3,7 +3,21 @@
                 <!-- table -->
                 <br>
                 <div>
-                <button (click)="toggleData()">Generate Data</button>
+                   
+                    <form action="https://google.com">
+                        <label>
+                          Enter From Date:
+                          <input type="date" name="Fdate" />
+                        </label>
+                        <br>
+                        <label>
+                          Enter To Date:
+                          <input type="date" name="Tdate" /></label>
+
+                        <p><button (click)="toggleData()">Generate Data</button>
+                        </p>
+                      </form>
+
                     
                 </div>
                 <div *ngIf="toDisplay">
