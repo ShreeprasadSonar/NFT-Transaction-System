@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
                 res => {
                     this.response = res
                     console.log("User is logged in");
-                    console.log(this.response);
                     localStorage.setItem('isloggedIn', 'true');
                     localStorage.setItem('token', this.response.auth_token);
                     localStorage.setItem('email', this.registerForm.value.email);
