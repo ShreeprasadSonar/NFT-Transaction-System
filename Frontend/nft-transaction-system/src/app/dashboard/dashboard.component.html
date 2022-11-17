@@ -34,9 +34,9 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let nft of trade_nfts">
-                    <td>{{nft.NFT_Address}}</td>
-                    <td>{{nft.Name}}</td>
-                    <td>{{nft.NFT_Value}}</td>
+                    <td>{{nft.NFT_add}}</td>
+                    <td>{{nft.name}}</td>
+                    <td>{{nft.NFT_value}}</td>
                     <td><img class="w-25 h-25"  src={{nft.Image_URL}} alt=""></td>
                   </tr>
                    </tbody>
@@ -48,7 +48,6 @@
   <a href="/trade" class="btn btn-success">Buy Nft</a>
   <a href="/sell_nft" class="btn btn-danger">Sell Nft</a>
   <a href="/cancel" class="btn btn-primary">Cancel Payment</a>
-
 </div>
 
 <br>
