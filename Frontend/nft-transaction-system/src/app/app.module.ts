@@ -14,6 +14,7 @@ import { TradeComponent } from './trade/trade.component';
 
 import { SearchFilterPipe } from './search-filter.pipe';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
+import { SellNftsComponent } from './sell-nfts/sell-nfts.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard
     SignupComponent,
     TradeComponent,
     SearchFilterPipe,
-    ManagerDashboardComponent
+    ManagerDashboardComponent,
+    SellNftsComponent
   ],
   imports: [
     BrowserModule,

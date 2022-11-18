@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { SignupComponent } from './signup/signup.component';
 import { TradeComponent } from './trade/trade.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
+import { SellNftsComponent } from './sell-nfts/sell-nfts.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,10 @@ const routes: Routes = [
   //{ path: 'dashboard', component: DashboardComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'trade', component: TradeComponent, canActivate:[AuthGuard]},
+  //{ path: 'trade', component: TradeComponent},
   { path: 'manager-dashboard', component: ManagerDashboardComponent},
+  { path: 'sell-nfts', component: SellNftsComponent},
+
 ];
 
 @NgModule({

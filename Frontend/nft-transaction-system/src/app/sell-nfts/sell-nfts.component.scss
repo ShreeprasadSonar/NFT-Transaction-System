@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.container-fluid {
+  overflow: hidden;
+}
+
+.cards-list {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.search-hero {
+  max-width: 20%;
+  margin: auto;
+  text-align: center;
+}
+
+.card {
+  margin: 80px 30px auto;
+  width: 300px;
+  height: 300px;
+  border-radius: 40px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.card .card_image {
+  width: inherit;
+  height: inherit;
+  border-radius: 40px;
+}
+
+.card .card_image img {
+  width: inherit;
+  height: inherit;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.card .card_title {
+  text-align: center;
+  border-radius: 0px 0px 40px 40px;
+  font-weight: bold;
+  color: black;
+  font-size: 20px;
+  height: 40px;
+}
+
+p,
+h1 {
+  background-size: 200%;
+  background-image: linear-gradient(105deg, #D16BA5, #86A8E7, #5FFBF1, #86A8E7, #D16BA5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: text 5s linear infinite both;
+}
+
+@keyframes text {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 200% 200%;
+  }
+}
+
+.card:hover {
+  img{
+    transform: scale(0.8, 0.8);
+    box-shadow: 5px 5px 30px 15px #D16BA5, -5px -5px 30px 15px #5FFBF1;
+    transition: all 0.4s ease;
+  }
+  .nft_add{
+    transform: scale(1.1, 1.1);
+    transition: all 0.4s ease;
+    top: -355px !important;
+  }
+}
+
+.title-white {
+  color: white;
+}
+
+.title-black {
+  color: black;
+}
+
+@media all and (max-width: 500px) {
+  .card-list {
+    /* On small screens, we are no longer using row direction but column */
+    flex-direction: column;
+  }
+}
