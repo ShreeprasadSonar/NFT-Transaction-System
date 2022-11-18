@@ -194,7 +194,8 @@ def getTraderNfts():
             'status': 'Success',
             'message': data,
             'fiatAmt' : trader_transDetail[0],
-            'ethCnt' : trader_transDetail[1]
+            'ethCnt' : trader_transDetail[1],
+            'ethValue': ETH_value['USD']
         }
         return jsonify(responseObject), 200
     responseObject = {
