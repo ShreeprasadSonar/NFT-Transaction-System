@@ -211,7 +211,7 @@ def get_ttrans_history():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s', (trader_id,))
     nft_trans = cursor.fetchall()
-    cursor.execute('SELECT * FROM FIAT_TRANSACTIONS WHERE t_id = % s', (trader_id,))
+    cursor.execute('SELECT ft_id, amount, type FROM FIAT_TRANSACTIONS WHERE t_id = % s', (trader_id,))
     fiat_trans = cursor.fetchall()
 
     if(nft_trans != None or fiat_trans != None):
