@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
   trade_nfts:any;
   add_money:any;
-  ethfiat:any;
+  ethfiatvalue:any;
   public searchFilter: any = '';
   searchText = '';
 
@@ -25,9 +25,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.getTraderNfts().subscribe((data:any) => {
       this.trade_nfts=data.message;
-      this.ethfiat=data;
+      this.ethfiatvalue=data;
       console.log(this.trade_nfts);
-      console.log(this.ethfiat);
+      console.log(this.ethfiatvalue);
     });
 
     
