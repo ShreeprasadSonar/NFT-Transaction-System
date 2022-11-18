@@ -5,15 +5,6 @@ import { NgModule } from '@angular/core';
 import UsersJson from './usernft.json';
 import { Router } from '@angular/router';
 
-interface USERS{
-  Name:String;
-  NFT_Address:String;
-  NFT_Value:Number;
-  Image_URL:String
-}
-
-
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,7 +15,7 @@ export class DashboardComponent implements OnInit {
 
   trade_nfts:any;
   add_money:any;
-
+  ethfiat:any;
   public searchFilter: any = '';
   searchText = '';
 
@@ -34,12 +25,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.getTraderNfts().subscribe((data:any) => {
       this.trade_nfts=data.message;
+      this.ethfiat=data;
       console.log(this.trade_nfts);
+      console.log(this.ethfiat);
     });
 
-    this.dataService.getTTransHistory().subscribe((data:any) =>{
-      console.log(data);
-    })
+    
   }
 
 }

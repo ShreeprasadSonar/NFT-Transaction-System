@@ -10,6 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { TradeComponent } from './trade/trade.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { SellNftsComponent } from './sell-nfts/sell-nfts.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   //{ path: 'trade', component: TradeComponent},
   { path: 'manager-dashboard', component: ManagerDashboardComponent},
   { path: 'sell-nfts', component: SellNftsComponent},
+  { path: 'transactions', component: TransactionsComponent},
 
 ];
 
