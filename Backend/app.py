@@ -21,20 +21,20 @@ mysql = MySQL(app)
 
 CORS(app, support_credentials=True)
 
-# def get_current_data(from_sym='BTC', to_sym='USD', exchange=''):
-#     url = 'https://min-api.cryptocompare.com/data/price'    
+def get_current_data(from_sym='BTC', to_sym='USD', exchange=''):
+     url = 'https://min-api.cryptocompare.com/data/price'    
     
-#     parameters = {'fsym': from_sym,
-#                   'tsyms': to_sym }
+     parameters = {'fsym': from_sym,
+                   'tsyms': to_sym }
     
-#     if exchange:
-#         parameters['e'] = exchange
+     if exchange:
+         parameters['e'] = exchange
         
-#     response = requests.get(url, params=parameters)   
-#     data = response.json()
+     response = requests.get(url, params=parameters)   
+     data = response.json()
     
-#     return data
-# ETH_value = get_current_data('ETH','USD','coinbase')
+     return data
+ETH_value = get_current_data('ETH','USD','coinbase')
 #print(ETH_value['USD'])
 
 def randN(N):
@@ -177,6 +177,8 @@ def getTraderNfts():
     req = request.get_json()
     trader_id = req['id']
     cursor = mysql.connection.cursor()
+    cursor.execute('SELECT fiat_amt, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
+    trader_transDetail = cursor.fetchone()
     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
     rows = cursor.fetchall()
     if(rows != None):
@@ -190,7 +192,9 @@ def getTraderNfts():
             })
         responseObject = {
             'status': 'Success',
-            'message': data
+            'message': data,
+            'fiatAmt' : trader_transDetail[0],
+            'ethCnt' : trader_transDetail[1]
         }
         return jsonify(responseObject), 200
     responseObject = {
@@ -198,7 +202,7 @@ def getTraderNfts():
         'message': 'No Data found'
     }
     return jsonify(responseObject), 401
-     
+       
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getTTransHistory', methods=['GET', 'POST'])
 def get_ttrans_history():
