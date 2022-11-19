@@ -23,4 +23,11 @@ export class TradeComponent implements OnInit {
       });
   }
 
+  makeTransaction(add:string){
+    this.router.navigate(
+      ['/transactions'],
+      { queryParams: { address: add } }
+    );
+  }
+
 }

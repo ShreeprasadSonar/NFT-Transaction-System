@@ -7,7 +7,7 @@
 
   <div class="cards-list">
 
-    <div *ngFor="let nft of nfts | searchFilter:searchText" class="card">
+    <div *ngFor="let nft of nfts | searchFilter:searchText" class="card" (click)="makeTransaction(nft.NFT_add)">
       <div class="card_image"> <img src="{{nft.Image_URL}}" /> </div>
       <div class="card_title title-white">
         <p>{{nft.name}} - ETH {{nft.NFT_value}}</p>
