@@ -25,6 +25,8 @@ export class DataService {
     const id = localStorage.getItem('id')
     const amt = amount
     const typ = type 
+    console.log(amt);
+    console.log(typ);
     return this.http.post('http://127.0.0.1:5000/transaction', {id: id, amount: amt, type: typ});
   }
 

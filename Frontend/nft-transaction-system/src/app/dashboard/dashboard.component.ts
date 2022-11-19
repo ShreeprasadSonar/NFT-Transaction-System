@@ -32,5 +32,10 @@ export class DashboardComponent implements OnInit {
 
     
   }
+  date(){
+    let date=new Date();
+    console.log(date);
+    this.router.navigate(['./cancel']);
+  };
 
 }

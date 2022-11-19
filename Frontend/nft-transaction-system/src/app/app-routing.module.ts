@@ -11,6 +11,8 @@ import { TradeComponent } from './trade/trade.component';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { SellNftsComponent } from './sell-nfts/sell-nfts.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { AddmoreComponent } from './addmore/addmore.component';
+import { CancelComponent } from './cancel/cancel.component';
 
 
 const routes: Routes = [
@@ -25,7 +27,8 @@ const routes: Routes = [
   { path: 'manager-dashboard', component: ManagerDashboardComponent},
   { path: 'sell-nfts', component: SellNftsComponent},
   { path: 'transactions', component: TransactionsComponent},
-
+  {path:'addmore',component:AddmoreComponent},
+  {path:'cancel',component:CancelComponent},
 ];
 
 @NgModule({

@@ -16,6 +16,8 @@ import { SearchFilterPipe } from './search-filter.pipe';
 import { ManagerDashboardComponent } from './manager-dashboard/manager-dashboard.component';
 import { SellNftsComponent } from './sell-nfts/sell-nfts.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { AddmoreComponent } from './addmore/addmore.component';
+import { CancelComponent } from './cancel/cancel.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { TransactionsComponent } from './transactions/transactions.component';
     SearchFilterPipe,
     ManagerDashboardComponent,
     SellNftsComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    AddmoreComponent,
+    CancelComponent
   ],
   imports: [
     BrowserModule,

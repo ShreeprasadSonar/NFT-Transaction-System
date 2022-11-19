@@ -3,7 +3,7 @@ import UsersJson from './allusernft.json';
 import {ViewEncapsulation} from '@angular/core';
 import {MatCalendarCellClassFunction} from '@angular/material/datepicker';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 interface USERS{
   NFT_Name:String;
@@ -24,16 +24,21 @@ interface USERS{
 export class ManagerDashboardComponent implements OnInit {
   toDisplay = false;
 
+  public dateform:any={
+    Fdate:'',
+    Tdate:''
+  };
+
+  constructor(private http:HttpClient) { }
+
   toggleData() {
     this.toDisplay = !this.toDisplay;
+    console.log(this.dateform);
+
   }
 
   Users:USERS[]=UsersJson;
-  constructor() { 
-
-    
-  }
- 
+  
   ngOnInit(): void {
 
 

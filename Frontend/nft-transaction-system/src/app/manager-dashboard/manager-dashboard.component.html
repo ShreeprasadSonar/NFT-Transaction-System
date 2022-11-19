@@ -4,17 +4,18 @@
                 <br>
                 <div>
                    
-                    <form action="https://google.com">
+                    <form>
                         <label>
                           Enter From Date:
-                          <input type="date" name="Fdate" />
+                          <input type="date" name="Fdate" [(ngModel)]="dateform.Fdate" >
                         </label>
                         <br>
                         <label>
                           Enter To Date:
-                          <input type="date" name="Tdate" /></label>
+                          <input type="date" name="Tdate" [(ngModel)]="dateform.Tdate"  >
+                        </label>
 
-                        <p><button (click)="toggleData()">Generate Data</button>
+                        <p><button class="btn btn-primary" (click)="toggleData()">Generate Data</button>
                         </p>
                       </form>
 
