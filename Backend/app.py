@@ -252,7 +252,7 @@ def get_all_trader_trans_history():
     fromDate = req['from']
     toDate = req['to']
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
+    cursor.execute('SELECT t_id, nft_trans_id, name, t_value, t_date_time, status, com_rate FROM NFT_TRANSACTION where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
     nft_trans = cursor.fetchall()
     cursor.execute('SELECT ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
     fiat_trans = cursor.fetchall()
@@ -260,11 +260,13 @@ def get_all_trader_trans_history():
         nft_data = []
         for row in nft_trans:
             nft_data.append({
-                'nft_trans_id': row[0],
-                'name' : row[1],
-                't_value' : row[2],
-                't_date_time' : row[3],
-                'status' : row[4]
+                't_id': row[0],
+                'nft_trans_id': row[1],
+                'name' : row[2],
+                't_value' : row[3],
+                't_date_time' : row[4],
+                'status' : row[5],
+                'com_rate' : row[6]
             })
         fiat_data = []
         for row1 in fiat_trans:
