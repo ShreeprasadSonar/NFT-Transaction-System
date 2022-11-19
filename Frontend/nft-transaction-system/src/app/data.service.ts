@@ -34,6 +34,8 @@ export class DataService {
     const id = localStorage.getItem('id')
     const fm_date = from
     const t_date = to
+    console.log(fm_date);
+    console.log(t_date);
     return this.http.post('http://127.0.0.1:5000/getAllTrader_TransHistory', {id: id, from: fm_date, to: t_date});
   }
 
