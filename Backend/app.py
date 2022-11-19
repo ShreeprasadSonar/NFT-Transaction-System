@@ -288,18 +288,21 @@ def get_all_trader_trans_history():
 def addMoney():
     msg = ''
     req = request.get_json()
-    trader_id = req['t_id']
-    #date_time = req['t_date_time']
+    trader_id = req['id']
+    now = datetime.now()
+    date_time = now.strftime("%Y-%m-%d %H:%M:%S")
     amount = req['amount']
-    type = req['type']
-    #status = req['status']
-    #current 
+    type = req['type'] 
+    ft_id = randN(10)
     cursor = mysql.connection.cursor()
+    cursor.execute('SELECT fiat_amt FROM TRADER WHERE t_id = % s', (trader_id,))
+    current_amt = cursor.fetchone()
+    total_amt = int(current_amt[0]) + int(amount)
     cursor.execute('SELECT * FROM TRADER WHERE t_id = % s', (trader_id,))
     row = cursor.fetchone()
     if row:
-        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s)", (trader_id, date_time, amount, status, type))
-        cursor.execute("UPDATE TRADER SET amount = %s WHERE t_id = %s", (amount, trader_id, ))
+        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'SUCCESS', type))
+        cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (total_amt, trader_id, ))
         mysql.connection.commit()
         msg = 'Data Successfully updated'
         responseObject = {
