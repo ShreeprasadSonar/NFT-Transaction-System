@@ -26,6 +26,8 @@ interface USERS{
 export class ManagerDashboardComponent implements OnInit {
   toDisplay = false;
   Users:any;
+  alltrade_transhistory_fiat:any;
+  alltrade_transhistory_nfttrans:any;
   public dateform:any={
     Fdate:'',
     Tdate:''
@@ -38,8 +40,9 @@ export class ManagerDashboardComponent implements OnInit {
     this.toDisplay = !this.toDisplay;
     console.log(this.dateform);
     this.dataService.getAllTrader_TransHistory(this.dateform.Fdate,this.dateform.Tdate).subscribe((data:any) => {
-      this.Users=data.message;
-      console.log(data.message);
+      this.alltrade_transhistory_fiat=data.fiat_trans;
+      this.alltrade_transhistory_nfttrans=data.nft_trans;
+      console.log(data);
     });
     console.log(this.dateform);
 

@@ -23,26 +23,57 @@
                 </div>
                 <div *ngIf="toDisplay">
                     <br>
+                    <p>Fiat Transaction Of All Users</p>
+
                 <table class="table table-image">
                   <thead class="thead-dark">
                     <tr>
-                      <th scope="col">NFT_Name</th>
-                      <th scope="col">Trans_ID</th>
-                      <th scope="col">NFT_Value</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Trans_date_time</th>
+                      <th scope="col">Fait Id</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Date</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let user of Users">
-                      <td>{{user.NFT_Name}}</td>
-                      <td>{{user.Trans_ID}}</td>
-                      <td>{{user.NFT_Value}}</td>
-                      <td>{{user.Status}}</td>
-                      <td>{{user.Trans_date_time}}</td>
+                    <tr *ngFor="let user of alltrade_transhistory_fiat">
+                      <td>{{user.ft_id}}</td>
+                      <td>{{user.amount}}</td>
+                      <td>{{user.type}}</td>
+                      <td>{{user.dateTime}}</td>
                     </tr>
                      </tbody>
                 </table>
+
+                <br>
+                <p>Nft Transactions Of All Users</p>
+                <table class="table table-image">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">NFT_Name</th>
+                        <th scope="col">NFT Trans_ID</th>
+                        <th scope="col">Trader ID</th>
+                        <th scope="col">NFT_Value</th>
+                        <th scope="col">Commission Rate</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Trans_date_time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let user of alltrade_transhistory_nfttrans">
+                        <td>{{user.name}}</td>
+                        <td>{{user.nft_trans_id}}</td>
+                        <td>{{user.t_id}}</td>
+                        <td>{{user.t_value}}</td>
+                        <td>{{user.com_rate}}</td>
+                        <td>{{user.status}}</td>
+                        <td>{{user.t_date_time}}</td>
+                      </tr>
+                       </tbody>
+                  </table>
+
+
+
+
                 </div>
 
                 
