@@ -176,11 +176,38 @@ def getnfts():
 def getTraderNfts():
     req = request.get_json()
     trader_id = req['id']
+    now = datetime.now()
+    toDate = now - timedelta(days = 30)
+    total_fiat_amount = 0
+    total_nft_value1 = 0
+    total_nft_value = 0
+    total_amt = 0
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT SUM(amount) FROM FIAT_TRANSACTIONS WHERE t_date_time >= %s and t_date_time <= %s and t_id = %s', (toDate, now, trader_id, ))
+    total_fiat_amount = cursor.fetchone()
+    
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT SUM(t_value) FROM NFT_TRANSACTION WHERE t_date_time >= %s and t_date_time <= %s and t_id = %s', (toDate, now, trader_id, ))
+    total_nft_value1 = cursor.fetchone()
+    if(total_nft_value1[0] != None):
+        total_nft_value = total_nft_value1[0] * ETH_value['USD']
+    if(total_fiat_amount[0] != None):
+        total_amt = total_fiat_amount[0] + total_nft_value
+    if(total_amt > 100000):
+        cursor = mysql.connection.cursor()
+        cursor.execute("UPDATE TRADER SET mem_type = %s WHERE t_id = %s", ('GOLD', trader_id, ))
+        mysql.connection.commit()
+    else:
+        cursor = mysql.connection.cursor()
+        cursor.execute("UPDATE TRADER SET mem_type = %s WHERE t_id = %s", ('SILVER', trader_id, ))
+        mysql.connection.commit()
+            
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT fiat_amt, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
     trader_transDetail = cursor.fetchone()
     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
     rows = cursor.fetchall()
+    
     if(rows != None):
         data = []
         for row in rows:
