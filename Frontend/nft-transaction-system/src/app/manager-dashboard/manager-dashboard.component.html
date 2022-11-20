@@ -23,12 +23,13 @@
                 </div>
                 <div *ngIf="toDisplay">
                     <br>
-                    <p>Fiat Transaction Of All Users</p>
+                    <p><b>Fiat Transaction Of All Users</b></p>
 
                 <table class="table table-image">
                   <thead class="thead-dark">
                     <tr>
                       <th scope="col">Fait Id</th>
+                      <th scope="col">Trader Id</th>
                       <th scope="col">Amount</th>
                       <th scope="col">Type</th>
                       <th scope="col">Date</th>
@@ -37,6 +38,7 @@
                   <tbody>
                     <tr *ngFor="let user of alltrade_transhistory_fiat">
                       <td>{{user.ft_id}}</td>
+                      <td>{{user.t_id}}</td>
                       <td>{{user.amount}}</td>
                       <td>{{user.type}}</td>
                       <td>{{user.dateTime}}</td>
@@ -45,7 +47,8 @@
                 </table>
 
                 <br>
-                <p>Nft Transactions Of All Users</p>
+                <p>
+                  <b>Nft Transactions Of All Users </b></p>
                 <table class="table table-image">
                     <thead class="thead-dark">
                       <tr>
