@@ -254,7 +254,7 @@ def get_all_trader_trans_history():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT t_id, nft_trans_id, name, t_value, t_date_time, status, com_rate FROM NFT_TRANSACTION where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
     nft_trans = cursor.fetchall()
-    cursor.execute('SELECT ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
+    cursor.execute('SELECT t_id, ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
     fiat_trans = cursor.fetchall()
     if(nft_trans != None or fiat_trans != None):
         nft_data = []
@@ -271,10 +271,11 @@ def get_all_trader_trans_history():
         fiat_data = []
         for row1 in fiat_trans:
             fiat_data.append({
-                'ft_id': row1[0],
-                'amount': row1[1],
-                'type' : row1[2],
-                'dateTime' : row1[3]
+                't_id': row1[0],
+                'ft_id': row1[1],
+                'amount': row1[2],
+                'type' : row1[3],
+                'dateTime' : row1[4]
             })
         responseObject = {
             'status': 'Success',
