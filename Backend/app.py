@@ -498,18 +498,7 @@ def cancel():
         'status': 'fail',
         'message': 'No Data found'
     }
-    return jsonify(responseObject), 401
- 
-@cross_origin(origin='*',headers=['Content-Type','application/json'])
-@app.route('/buynfts', methods=['GET', 'POST'])
-def buynfts():
-    msg = ''
-    req = request.get_json()
-    trader_id = req['trader_id']
-    nft_id = req['nft_id']
-    nft_value = req['nft_value']
-    comm_type = req['comm_type']
-    
+    return jsonify(responseObject), 401   
     
 @app.route('/homepage', methods=['GET'])
 def dashboard():
