@@ -462,19 +462,14 @@ def sellnfts():
 def cancel():
     req = request.get_json()
     trader_id = req['id']
-    #print(trader_id)
     toDate = datetime.now()
-    #print(toDate)
     fromDate = toDate - timedelta(minutes = 15)
-    #print(fromDate)
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s and t_date_time >= %s and t_date_time < %s', (trader_id, fromDate, toDate,))
     nft_trans = cursor.fetchall()
-    
     cursor.execute('SELECT ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS WHERE t_id = % s and t_date_time >= %s and t_date_time < %s', (trader_id, fromDate, toDate,))
     fiat_trans = cursor.fetchall()
-    #print(fiat_trans)
-
+    
     if(nft_trans != None or fiat_trans != None):
         nft_data = []
         for row in nft_trans:
