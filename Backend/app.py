@@ -352,6 +352,112 @@ def addMoney():
     return jsonify(responseObject), 401
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/buynfts', methods=['GET', 'POST'])
+def buynfts():
+    msg = ''
+    req = request.get_json()
+    trader_id = req['trader_id']
+    nft_address = req['nftAdd']
+    com_type = req['com_type']
+    now = datetime.now()
+    trans_id = randN(10)
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT mem_type, eth_cnt, fiat_amt, eth_add FROM TRADER WHERE t_id = % s', (trader_id,))
+    mem_type = cursor.fetchone()
+    cursor.execute('SELECT com_rate FROM CLASSIFICATION WHERE mem_id = % s', (mem_type[0],))
+    com_rate = cursor.fetchone()
+    cursor.execute('SELECT NFT_value, NFT_id, name, URL, sell_add, NFT_add FROM NFT WHERE NFT_add = % s', (nft_address,))
+    nft_value = cursor.fetchone()
+    if(mem_type[1] < nft_value):
+        msg = 'You dont have enough Eth to buy NFTs'
+    else:    
+        cursor = mysql.connection.cursor()
+        remaining_nft_value = mem_type[1] - nft_value[0]
+        cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_nft_value, trader_id, ))
+        mysql.connection.commit()
+    if(com_type == 'ETH'):
+        comm1 = ETH_value['USD']*nft_value[0]*com_rate
+        comm = comm1/ETH_value['USD']
+        if(mem_type[1] >= comm): 
+            remaining_eth_balance = mem_type[1] - comm
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
+            mysql.connection.commit()
+            msg = 'Succesfully Bought the NFT'
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE NFT SET t_id = %s WHERE NFT_add = %s", (trader_id, nft_address, ))
+            mysql.connection.commit()
+        else:
+            msg = 'You dont have enough ethereum Count to pay the commission'
+    else:
+        comm = ETH_value['USD']*nft_value[0]*com_rate 
+        if(mem_type[2] >= comm):   
+            remaining_eth_balance = mem_type[2] - comm
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
+            mysql.connection.commit()
+            msg = 'Succesfully Bought the NFT'
+            cursor = mysql.connection.cursor()
+            cursor.execute("UPDATE NFT SET t_id = %s WHERE NFT_add = %s", (trader_id, nft_address, ))
+            mysql.connection.commit()
+        else:
+            msg = 'You dont have enough fiat amount to pay the commission'
+    
+    if(msg == 'You dont have enough Eth to buy NFTs' or msg == 'You dont have enough ethereum Count to pay the commission' or msg == 'You dont have enough fiat amount to pay the commission'):
+        responseObject = {
+            'status': 'fail',
+            'message': msg
+        }
+        return jsonify(responseObject), 401
+    else:
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id ,NFT_id,name,t_date_time,com_rate,status,buyer_eth_add ,seller_eth_add, com_type, mem_type ,nft_add ,t_value,nft_trans_id ,URL) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, nft_value[1], nft_value[2], now, com_rate, 'SUCCESS', mem_type[3], nft_value[4], com_type, mem_type[0], nft_value[5], nft_value[0], trans_id, nft_value[3], ))
+        mysql.connection.commit()
+        responseObject = {
+            'status': 'Success',
+            'message': msg
+        }
+        return jsonify(responseObject), 200
+
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/sellnfts', methods=['GET', 'POST'])
+def sellnfts():
+    msg = ''
+    req = request.get_json()
+    trader_id = req['trader_id']
+    nft_address = req['nftAdd']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT t_id FROM NFT WHERE NFT_add = % s', (nft_address,))
+    t_id = cursor.fetchone()
+    if(trader_id == t_id):
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT NFT_value FROM NFT WHERE NFT_add = % s', (nft_address,))
+        nft_value = cursor.fetchone()
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT eth_add, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
+        eth_add = cursor.fetchone()
+        update_amt = nft_value + eth_add[1]
+        cursor = mysql.connection.cursor()
+        cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (update_amt, trader_id, ))
+        mysql.connection.commit()
+        cursor = mysql.connection.cursor()
+        cursor.execute("UPDATE NFT SET t_id = %s and sell_add = %s WHERE NFT_add = %s", ('', eth_add, nft_address, ))
+        mysql.connection.commit()
+        msg = 'Successfully Sold the Eth'
+        responseObject = {
+            'status': 'Success',
+            'message': msg
+        }
+        return jsonify(responseObject), 200
+    else: 
+        msg = 'You dont own that NFT'
+        responseObject = {
+            'status': 'fail',
+            'message': msg
+        }
+        return jsonify(responseObject), 401
+
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/cancel', methods=['GET', 'POST'])
 def cancel():
     req = request.get_json()
