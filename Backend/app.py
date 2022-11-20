@@ -149,7 +149,7 @@ def register():
 @app.route('/getnfts', methods=['GET', 'POST'])
 def getnfts():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT')
+    cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id is NULL')
     rows = cursor.fetchall()
     if(rows != None):
         data = []
@@ -162,7 +162,7 @@ def getnfts():
             })
         responseObject = {
             'status': 'Success',
-            'message': data
+            'message': data,
         }
         return jsonify(responseObject), 200
     responseObject = {
