@@ -18,6 +18,7 @@ import { SellNftsComponent } from './sell-nfts/sell-nfts.component';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { AddmoreComponent } from './addmore/addmore.component';
 import { CancelComponent } from './cancel/cancel.component';
+import { BuynftComponent } from './buynft/buynft.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { CancelComponent } from './cancel/cancel.component';
     SellNftsComponent,
     TransactionsComponent,
     AddmoreComponent,
-    CancelComponent
+    CancelComponent,
+    BuynftComponent
   ],
   imports: [
     BrowserModule,

@@ -25,7 +25,7 @@ export class TradeComponent implements OnInit {
 
   makeTransaction(add:string){
     this.router.navigate(
-      ['/transactions'],
+      ['/buynft'],
       { queryParams: { address: add } }
     );
   }

@@ -1,1 +1,49 @@
-<p>cancel works!</p>
+<div class="midde_page">
+    <h1>Fiat Transaction History</h1>
+    <table class="table table-image">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Fiat Transaction Id</th>
+            <th scope="col">Transaction Value</th>
+            <th scope="col">USD | ETH</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of cancelpayment_fait" >
+            <td>{{data.ft_id}}</td>
+            <td>{{data.amount}}</td>
+            <td>{{data.type}}</td>
+            <td>{{data.dateTime}}</td>
+            <td><button class="btn btn-danger">Cancel</button></td>
+          </tr>
+           </tbody>
+      </table>
+      
+    <br>
+    <h1>Nft Transaction History</h1>
+    <table class="table table-image">
+        <thead class="thead-dark">
+          <tr >
+            <th scope="col">Nft Transaction Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">NFT Value</th>
+            <th scope="col">Transaction Date</th>
+            <th scope="col">Status</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of cancelpayment_nfts">
+            <td>{{data.nft_trans_id}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.t_value}}</td>
+            <td>{{data.t_date_time}}</td>
+            <td>{{data.status}}</td>
+          </tr>
+           </tbody>
+      </table>
+      
+</div> 
+  
