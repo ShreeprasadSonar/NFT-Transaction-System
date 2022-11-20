@@ -350,7 +350,50 @@ def addMoney():
         'message': msg
     }
     return jsonify(responseObject), 401
-    
+
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/cancel', methods=['GET', 'POST'])
+def cancel():
+    req = request.get_json()
+    trader_id = req['id']
+    toDate = datetime.now()
+    fromDate = toDate - timedelta(minutes = 15)
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s and t_date_time <= %s and t_date_time > %s', (trader_id, fromDate, toDate,))
+    nft_trans = cursor.fetchall()
+    cursor.execute('SELECT ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS WHERE t_id = % s and t_date_time <= %s and t_date_time > %s', (trader_id, fromDate, toDate,))
+    fiat_trans = cursor.fetchall()
+
+    if(nft_trans != None or fiat_trans != None):
+        nft_data = []
+        for row in nft_trans:
+            nft_data.append({
+                'nft_trans_id': row[0],
+                'name' : row[1],
+                't_value' : row[2],
+                't_date_time' : row[3],
+                'status' : row[4]
+            })
+        fiat_data = []
+        for row1 in fiat_trans:
+            fiat_data.append({
+                'ft_id': row1[0],
+                'amount': row1[1],
+                'type' : row1[2],
+                'dateTime' : row1[3]
+            })
+        responseObject = {
+            'status': 'Success',
+            'nft_trans': nft_data,
+            'fiat_trans': fiat_data,
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 401
+ 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/buynfts', methods=['GET', 'POST'])
 def buynfts():
