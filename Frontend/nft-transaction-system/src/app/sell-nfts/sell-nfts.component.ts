@@ -12,6 +12,7 @@ export class SellNftsComponent implements OnInit {
   nfts:any;
   public searchFilter: any = '';
   searchText = '';
+  msg: any;
 
   constructor(private dataService: DataService,
               private router: Router ) { }
@@ -21,5 +22,12 @@ export class SellNftsComponent implements OnInit {
         this.nfts = data.message;
         console.log(this.nfts);
       });
+  }
+
+
+  sellnft(add:string){
+    this.dataService.sellnfts(add).subscribe((data:any)=>{
+      this.msg=data;
+    })
   }
 }

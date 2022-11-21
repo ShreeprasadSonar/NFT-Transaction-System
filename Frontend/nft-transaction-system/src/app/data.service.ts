@@ -64,4 +64,15 @@ export class DataService {
     return this.http.post('http://127.0.0.1:5000/buynfts',{id:id, nftAdd:add, com_type:type})
 }
 
+
+sellnfts(address:String){
+  const id= localStorage.getItem("id")
+  const add=address
+  console.log("Address of Nft's:",add);
+  return this.http.post('http://127.0.0.1:5000/sellnfts',{trader_id:id, nftAdd:add})
+}
+
+
+
+
 }

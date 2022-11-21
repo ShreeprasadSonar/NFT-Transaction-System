@@ -21,8 +21,14 @@
 
       <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
       <br><br>
-      <div *ngIf="alert" class="alert alert-primary" role="alert">
+      
+      <div *ngIf="msg.status==='success' " class="alert alert-success" role="alert">
 
         <p>{{msg.message}}</p>
         </div>
+
+        <div *ngIf="msg.status==='fail' " class="alert alert-danger" role="alert">
+
+            <p>{{msg.message}}</p>
+            </div>
 </div>
