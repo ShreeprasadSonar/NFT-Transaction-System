@@ -515,7 +515,13 @@ def cancelPayment():
     req = request.get_json()
     trans_id = req['trans_id']
     trader_id = req['id']
-    trans_type = req['trans_type']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT ft_id FROM FIAT_TRANSACTIONS WHERE t_id = %s and ft_id = % s', (trader_id, trans_id, ))
+    ft_id = cursor.fetchone()
+    if(ft_id[0] == ''):
+        trans_type = 'NFT'
+    else:
+        trans_type ='fiat'
     if(trans_type == 'fiat'):
         cursor = mysql.connection.cursor()
         cursor.execute("UPDATE FIAT_TRANSACTIONS SET status = %s WHERE trans_id = %s", ( 'FAIL', trans_id))
