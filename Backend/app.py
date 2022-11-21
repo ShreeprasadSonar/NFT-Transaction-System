@@ -416,7 +416,7 @@ def buynfts():
             'status': 'fail',
             'message': msg
         }
-        return jsonify(responseObject), 401
+        return jsonify(responseObject), 200
     else:
         cursor = mysql.connection.cursor()
         cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id ,NFT_id,name,t_date_time,com_rate,status,buyer_eth_add ,seller_eth_add, com_type, mem_type ,nft_add ,t_value,nft_trans_id ,URL) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, nft_value[1], nft_value[2], now, com_rate, 'success', mem_type[3], nft_value[4], com_type, mem_type[0], nft_value[5], nft_value[0], trans_id, nft_value[3] ))
@@ -524,7 +524,7 @@ def cancelPayment():
         trans_type ='fiat'
     if(trans_type == 'fiat'):
         cursor = mysql.connection.cursor()
-        cursor.execute("UPDATE FIAT_TRANSACTIONS SET status = %s WHERE trans_id = %s", ( 'FAIL', trans_id))
+        cursor.execute("UPDATE FIAT_TRANSACTIONS SET status = %s WHERE ft_id = %s", ( 'fail', trans_id))
         mysql.connection.commit()
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT mem_type, eth_cnt, fiat_amt FROM TRADER WHERE t_id = % s', (trader_id,))

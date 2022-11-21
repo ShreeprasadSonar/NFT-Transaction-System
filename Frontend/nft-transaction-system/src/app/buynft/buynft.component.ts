@@ -11,11 +11,13 @@ export class BuynftComponent implements OnInit {
   x: any;
   usdeth:string='';
   address:string='';
+  alert=false;
 
 
   public buynftform:any={
     usdeth:'',
   };
+  msg: any;
 
   constructor(private http:HttpClient,private dataService: DataService,
     private router: Router, private route: ActivatedRoute) { }
@@ -33,9 +35,13 @@ export class BuynftComponent implements OnInit {
   }
 
   submit(){
+
     this.dataService.buynft(this.buynftform.address,this.buynftform.usdeth).subscribe((data:any) => {
-      console.log(data);
+      this.msg=data;
+      console.log(this.msg);
     });
+    
+    this.alert=true;
     
 }
 }

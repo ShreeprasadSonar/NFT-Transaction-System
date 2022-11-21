@@ -11,6 +11,10 @@ export class CancelComponent implements OnInit {
   cancelpayment_fait: any;
   cancelpayment_nfts: any;
 
+  public canceldata:any={
+    tid:'',
+  };
+
   constructor(private http:HttpClient,private dataService: DataService,
     private router: Router) { }
 
@@ -23,4 +27,10 @@ export class CancelComponent implements OnInit {
     });
   }
 
+
+  cancelbutton(tid:string){
+    this.dataService.cancelPayment(tid).subscribe((data:any) => {
+  console.log(data);
+  });
+  }
 }

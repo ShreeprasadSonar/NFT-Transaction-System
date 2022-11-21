@@ -44,9 +44,10 @@ export class DataService {
     return this.http.post('http://127.0.0.1:5000/getTTransHistory', {id: id});
   }
 
-  cancelPayment(transactionId: string, type: string){
+  cancelPayment(transactionId: string){
     const id = localStorage.getItem('id')
-    return this.http.post('http://127.0.0.1:5000/cancelPayment', {id: id, tid: transactionId, type: type});
+    console.log(transactionId)
+    return this.http.post('http://127.0.0.1:5000/cancelPayment', {id: id, trans_id: transactionId});
   }
 
   getCancellablePayments(){

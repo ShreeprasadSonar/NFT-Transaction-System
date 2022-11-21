@@ -10,7 +10,7 @@
         </select>
 
         <br>
-          <label for="exampleFormControlSelect1">Select Buy NFT</label>
+          <label for="exampleFormControlSelect1">Select Buy NFT Address</label>
           <select class="form-control" name="usdeth" [(ngModel)]="buynftform.address">
             <option>{{x}}</option>
         </select>
@@ -20,5 +20,9 @@
 
 
       <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
+      <br><br>
+      <div *ngIf="alert" class="alert alert-primary" role="alert">
 
+        <p>{{msg.message}}</p>
+        </div>
 </div>
