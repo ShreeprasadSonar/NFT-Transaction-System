@@ -419,7 +419,7 @@ def buynfts():
         return jsonify(responseObject), 200
     else:
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id ,NFT_id,name,t_date_time,com_rate,status,buyer_eth_add ,seller_eth_add, com_type, mem_type ,nft_add ,t_value,nft_trans_id ,URL) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, nft_value[1], nft_value[2], now, com_rate, 'success', mem_type[3], nft_value[4], com_type, mem_type[0], nft_value[5], nft_value[0], trans_id, nft_value[3] ))
+        cursor.execute("INSERT INTO NFT_TRANSACTIONS (t_id ,NFT_id,name,t_date_time,com_rate,status,buyer_eth_add ,seller_eth_add, com_type, mem_type ,nft_add ,t_value,nft_trans_id ,URL) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, nft_value[1], nft_value[2], now, com_rate, 'success', mem_type[3], nft_value[4], com_type, mem_type[0], nft_value[5], nft_value[0], trans_id, nft_value[3] ))
         mysql.connection.commit()
         responseObject = {
             'status': 'success',
