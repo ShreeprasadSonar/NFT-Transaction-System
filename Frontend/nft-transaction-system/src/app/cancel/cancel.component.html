@@ -16,7 +16,7 @@
             <td>{{data.amount}}</td>
             <td>{{data.type}}</td>
             <td>{{data.dateTime}}</td>
-            <td><button class="btn btn-danger">Cancel</button></td>
+            <td><button class="btn btn-danger" (click)="cancelbutton(data.ft_id)">Cancel</button></td>
           </tr>
            </tbody>
       </table>
@@ -31,16 +31,17 @@
             <th scope="col">NFT Value</th>
             <th scope="col">Transaction Date</th>
             <th scope="col">Status</th>
-
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let data of cancelpayment_nfts">
             <td>{{data.nft_trans_id}}</td>
-            <td>{{data.name}}</td>
+            <td >{{data.name}}</td>
             <td>{{data.t_value}}</td>
             <td>{{data.t_date_time}}</td>
             <td>{{data.status}}</td>
+            <td><button class="btn btn-danger" (click)="cancelbutton(data.nft_trans_id)">Cancel</button></td>
           </tr>
            </tbody>
       </table>
