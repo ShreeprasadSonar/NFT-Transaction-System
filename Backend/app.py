@@ -437,19 +437,21 @@ def sellnfts():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT t_id FROM NFT WHERE NFT_add = % s', (nft_address,))
     t_id = cursor.fetchone()
-    if(trader_id == t_id):
+    print(t_id,trader_id)
+    if(trader_id == t_id[0]):
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT NFT_value FROM NFT WHERE NFT_add = % s', (nft_address,))
         nft_value = cursor.fetchone()
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT eth_add, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
         eth_add = cursor.fetchone()
-        update_amt = nft_value + eth_add[1]
+        update_amt = nft_value[0] + eth_add[1]
         cursor = mysql.connection.cursor()
         cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (update_amt, trader_id, ))
         mysql.connection.commit()
         cursor = mysql.connection.cursor()
-        cursor.execute("UPDATE NFT SET t_id = %s and sell_add = %s WHERE NFT_add = %s", ('', eth_add, nft_address, ))
+        cursor.execute("UPDATE NFT SET t_id = NULL and sell_add = %s WHERE NFT_add = %s", (eth_add[0], nft_address, ))
+
         mysql.connection.commit()
         msg = 'Successfully Sold the Eth'
         responseObject = {

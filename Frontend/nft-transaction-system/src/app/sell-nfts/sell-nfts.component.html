@@ -1,3 +1,7 @@
+
+
+
+
 <div class="container-fluid" style="padding-bottom: 100px;">
     <h1 style="min-width: 100%; color: black;" style="margin-top: 100px; text-align: center;">Search Selling NFT's</h1>
     <div class="search-hero">
@@ -7,8 +11,8 @@
   
     <div class="cards-list">
   
-      <div *ngFor="let nft of nfts | searchFilter:searchText" class="card">
-        <div class="card_image"> <img src="{{nft.Image_URL}}" /> </div>
+      <div *ngFor="let nft of nfts | searchFilter:searchText" class="card" >
+        <div class="card_image"  (click)="sellnft(nft.NFT_add)"> <img src="{{nft.Image_URL}}" /> </div>
         <div class="card_title title-white">
           <p>{{nft.name}} - ETH {{nft.NFT_value}}</p>
           <p class="nft_add" style="font-size: 12px; position: relative; top: -335px; color: black; z-index: -1;">{{nft.NFT_add}}</p>
@@ -16,4 +20,17 @@
       </div>
   
     </div>
+
+
+    
+  </div>
+
+  <div *ngIf="msg.status==='success' " class="alert alert-success" role="alert">
+
+    <b>{{msg.message}}</b>
+  </div>
+  
+  <div *ngIf="msg.status==='fail' " class="alert alert-danger" role="alert">
+  
+  <b>{{msg.message}}</b>
   </div>
