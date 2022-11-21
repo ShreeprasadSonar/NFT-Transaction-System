@@ -380,7 +380,7 @@ def buynfts():
         msg = 'You dont have enough Eth to buy NFTs'
     else:    
         cursor = mysql.connection.cursor()
-        remaining_nft_value = mem_type[1] - nft_value[0]
+        remaining_nft_value = mem_type[1] - float(nft_value[0])
         cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_nft_value, trader_id, ))
         mysql.connection.commit()
     if(com_type == 'ETH'):
