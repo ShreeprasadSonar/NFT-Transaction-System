@@ -89,7 +89,7 @@ def login():
                 'status': 'fail',
                 'message': 'Incorrect Username or Password.'
             }
-            return jsonify(responseObject), 401   
+            return jsonify(responseObject), 200   
 
             
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
@@ -143,7 +143,7 @@ def register():
             'status': 'fail',
             'message': msg
         }
-        return jsonify(responseObject), 401
+        return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getnfts', methods=['GET', 'POST'])
@@ -169,7 +169,7 @@ def getnfts():
         'status': 'fail',
         'message': 'No Data found'
     }
-    return jsonify(responseObject), 401
+    return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getTraderNfts', methods=['POST'])
@@ -229,7 +229,7 @@ def getTraderNfts():
         'status': 'fail',
         'message': 'No Data found'
     }
-    return jsonify(responseObject), 401
+    return jsonify(responseObject), 200
        
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getTTransHistory', methods=['GET', 'POST'])
@@ -270,7 +270,7 @@ def get_ttrans_history():
         'status': 'fail',
         'message': 'No Data found'
     }
-    return jsonify(responseObject), 401
+    return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getAllTrader_TransHistory', methods=['GET', 'POST'])
@@ -314,7 +314,7 @@ def get_all_trader_trans_history():
         'status': 'fail',
         'message': 'No Data found'
     }
-    return jsonify(responseObject), 401
+    return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/transaction', methods=['GET', 'POST'])
@@ -357,7 +357,7 @@ def addMoney():
         'status': 'fail',
         'message': msg
     }
-    return jsonify(responseObject), 401
+    return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/buynfts', methods=['GET', 'POST'])
@@ -463,7 +463,7 @@ def sellnfts():
             'status': 'fail',
             'message': msg
         }
-        return jsonify(responseObject), 401
+        return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/cancel', methods=['GET', 'POST'])
@@ -506,7 +506,7 @@ def cancel():
         'status': 'fail',
         'message': 'No Data found'
     }
-    return jsonify(responseObject), 401
+    return jsonify(responseObject), 200
  
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/cancelPayment', methods=['GET', 'POST'])
