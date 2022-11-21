@@ -133,7 +133,7 @@ def register():
             mysql.connection.commit()
             msg = 'You have successfully registered!'
             responseObject = {
-                'status': 'Success',
+                'status': 'success',
                 'message': msg
             }
             return jsonify(responseObject), 200
@@ -161,7 +161,7 @@ def getnfts():
                 'Image_URL' : row[3]
             })
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'message': data,
         }
         return jsonify(responseObject), 200
@@ -218,7 +218,7 @@ def getTraderNfts():
                 'Image_URL' : row[3]
             })
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'message': data,
             'fiatAmt' : trader_transDetail[0],
             'ethCnt' : trader_transDetail[1],
@@ -261,7 +261,7 @@ def get_ttrans_history():
                 'dateTime' : row1[3]
             })
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'nft_trans': nft_data,
             'fiat_trans': fiat_data,
         }
@@ -305,7 +305,7 @@ def get_all_trader_trans_history():
                 'dateTime' : row1[4]
             })
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'nft_trans': nft_data,
             'fiat_trans': fiat_data,
         }
@@ -336,18 +336,18 @@ def addMoney():
     row = cursor.fetchone()
     if row:
         if(type == 'USD'):
-            cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'SUCCESS', type))
+            cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'success', type))
             cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (total_amt, trader_id, ))
             mysql.connection.commit()
             msg = 'USD Successfully added to Wallet'
         else: 
-            cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'SUCCESS', type))
+            cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'success', type))
             cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (total_eth, trader_id, ))
             mysql.connection.commit()
             msg = 'ETH Successfully added to Wallet'
             
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'message': msg
             }
         return jsonify(responseObject), 200
@@ -419,10 +419,10 @@ def buynfts():
         return jsonify(responseObject), 401
     else:
         cursor = mysql.connection.cursor()
-        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id ,NFT_id,name,t_date_time,com_rate,status,buyer_eth_add ,seller_eth_add, com_type, mem_type ,nft_add ,t_value,nft_trans_id ,URL) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, nft_value[1], nft_value[2], now, com_rate, 'SUCCESS', mem_type[3], nft_value[4], com_type, mem_type[0], nft_value[5], nft_value[0], trans_id, nft_value[3] ))
+        cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id ,NFT_id,name,t_date_time,com_rate,status,buyer_eth_add ,seller_eth_add, com_type, mem_type ,nft_add ,t_value,nft_trans_id ,URL) VALUES (% s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s, % s)", (trader_id, nft_value[1], nft_value[2], now, com_rate, 'success', mem_type[3], nft_value[4], com_type, mem_type[0], nft_value[5], nft_value[0], trans_id, nft_value[3] ))
         mysql.connection.commit()
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'message': msg
         }
         return jsonify(responseObject), 200
@@ -453,7 +453,7 @@ def sellnfts():
         mysql.connection.commit()
         msg = 'Successfully Sold the Eth'
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'message': msg
         }
         return jsonify(responseObject), 200
@@ -473,9 +473,9 @@ def cancel():
     toDate = datetime.now()
     fromDate = toDate - timedelta(minutes = 15)
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s and t_date_time >= %s and t_date_time < %s and status = SUCCESS', (trader_id, fromDate, toDate,))
+    cursor.execute('SELECT nft_trans_id, name, t_value, t_date_time, status FROM NFT_TRANSACTION WHERE t_id = % s and t_date_time >= %s and t_date_time < %s and status = %s', (trader_id, fromDate, toDate,'success'))
     nft_trans = cursor.fetchall()
-    cursor.execute('SELECT ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS WHERE t_id = % s and t_date_time >= %s and t_date_time < %s and status = SUCCESS', (trader_id, fromDate, toDate,))
+    cursor.execute('SELECT ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS WHERE t_id = % s and t_date_time >= %s and t_date_time < %s and status = %s', (trader_id, fromDate, toDate, 'success'))
     fiat_trans = cursor.fetchall()
     
     if(nft_trans != None or fiat_trans != None):
@@ -497,7 +497,7 @@ def cancel():
                 'dateTime' : row1[3]
             })
         responseObject = {
-            'status': 'Success',
+            'status': 'success',
             'nft_trans': nft_data,
             'fiat_trans': fiat_data,
         }
@@ -573,7 +573,7 @@ def cancelPayment():
     
     msg = 'Successfully cancelled the Transaction.'
     responseObject = {
-        'status': 'Success',
+        'status': 'success',
         'message': msg
     }
     return jsonify(responseObject), 200
