@@ -561,14 +561,14 @@ def cancelPayment():
         mysql.connection.commit() 
 
         if(t_value[2] == 'ETH'):
-            comm1 = (ETH_value['USD']*t_value[0]*t_value[1])/100
+            comm1 = (ETH_value['USD']*float(nft_value[0])*com_rate[0])/100
             comm = comm1/ETH_value['USD']
             remaining_eth_balance = mem_type[1] + comm
             cursor = mysql.connection.cursor()
             cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
             mysql.connection.commit()
         else:
-            comm = (ETH_value['USD']*t_value[0]*t_value[1])/100   
+            comm = (ETH_value['USD']*float(nft_value[0])*com_rate[0])/100   
             remaining_eth_balance = mem_type[2] + comm
             cursor = mysql.connection.cursor()
             cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
