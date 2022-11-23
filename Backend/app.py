@@ -376,31 +376,28 @@ def buynfts():
     com_rate = cursor.fetchone()
     cursor.execute('SELECT NFT_value, NFT_id, name, URL, sell_add, NFT_add FROM NFT WHERE NFT_add = % s', (nft_address,))
     nft_value = cursor.fetchone()
-    if(mem_type[1] < nft_value[0]):
-        msg = 'You dont have enough Eth to buy NFTs'
-    else:    
-        cursor = mysql.connection.cursor()
-        remaining_nft_value = mem_type[1] - float(nft_value[0])
-        cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_nft_value, trader_id, ))
-        mysql.connection.commit()
+    
     if(com_type == 'ETH'):
-        comm1 = (ETH_value['USD']*float(nft_value[0])*com_rate[0])/100
-        comm = comm1/ETH_value['USD']
-        if(mem_type[1] >= comm): 
-            remaining_eth_balance = mem_type[1] - comm
-            cursor = mysql.connection.cursor()
-            cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
-            mysql.connection.commit()
-            cursor = mysql.connection.cursor()
-            cursor.execute("UPDATE NFT SET t_id = %s WHERE NFT_add = %s", (trader_id, nft_address, ))
-            mysql.connection.commit()
-            msg = 'Succesfully Bought the NFT'
+        if(mem_type[1] < nft_value[0]):
+            msg = 'You dont have enough Eth to buy NFTs'
         else:
-            msg = 'You dont have enough ethereum Count to pay the commission'
+            comm1 = (ETH_value['USD']*nft_value[0]*com_rate[0])/100
+            comm = comm1/ETH_value['USD']
+            if(mem_type[1] >= comm): 
+                remaining_eth_balance = mem_type[1] - comm - nft_value[0]
+                cursor = mysql.connection.cursor()
+                cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
+                mysql.connection.commit()
+                cursor = mysql.connection.cursor()
+                cursor.execute("UPDATE NFT SET t_id = %s WHERE NFT_add = %s", (trader_id, nft_address, ))
+                mysql.connection.commit()
+                msg = 'Succesfully Bought the NFT'
+            else:
+                msg = 'You dont have enough ethereum Count to pay the commission'
     else:
-        comm = (ETH_value['USD']*float(nft_value[0])*com_rate[0])/100
+        comm = (ETH_value['USD']*nft_value[0]*com_rate[0])/100
         if(mem_type[2] >= comm):   
-            remaining_eth_balance = mem_type[2] - comm
+            remaining_eth_balance = mem_type[2] - comm - (ETH_value['USD']*nft_value[0])
             cursor = mysql.connection.cursor()
             cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
             mysql.connection.commit()
@@ -453,7 +450,7 @@ def sellnfts():
         cursor.execute("UPDATE NFT SET t_id = NULL and sell_add = %s WHERE NFT_add = %s", (eth_add[0], nft_address, ))
         mysql.connection.commit()
         cursor = mysql.connection.cursor()
-        cursor.execute("UPDATE NFT_TRANSACTION SET status = NULL WHERE NFT_add = %s", ('success and sold', nft_address, ))
+        cursor.execute("UPDATE NFT_TRANSACTION SET status = %s WHERE NFT_add = %s", ('success', nft_address, ))
         mysql.connection.commit()
         msg = 'Successfully Sold the Eth'
         responseObject = {
@@ -561,14 +558,14 @@ def cancelPayment():
         mysql.connection.commit() 
 
         if(t_value[2] == 'ETH'):
-            comm1 = (ETH_value['USD']*float(nft_value[0])*com_rate[0])/100
+            comm1 = (ETH_value['USD']*t_value[0]*t_value[0])/100
             comm = comm1/ETH_value['USD']
             remaining_eth_balance = mem_type[1] + comm
             cursor = mysql.connection.cursor()
             cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
             mysql.connection.commit()
         else:
-            comm = (ETH_value['USD']*float(nft_value[0])*com_rate[0])/100   
+            comm = (ETH_value['USD']*t_value[0]*t_value[0])/100   
             remaining_eth_balance = mem_type[2] + comm
             cursor = mysql.connection.cursor()
             cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (remaining_eth_balance, trader_id, ))
