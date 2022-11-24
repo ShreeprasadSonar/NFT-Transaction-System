@@ -37,7 +37,7 @@
                   </div>
 
                   <div *ngIf="this.wrongPassword == true" class="form-floating mb-3">
-                    <p style="color: red;"> Wrong username or password</p>
+                    <p style="color: red;">{{this.message}}</p>
                   </div>
   
                   <div class="form-check mb-3">
