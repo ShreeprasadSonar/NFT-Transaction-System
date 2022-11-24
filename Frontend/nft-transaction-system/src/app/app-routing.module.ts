@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: '', component: HomepageComponent},
   { path: 'homepage', component: HomepageComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'dashboard', component: DashboardComponent},
+  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   { path: 'signup', component: SignupComponent},
   { path: 'trade', component: TradeComponent, canActivate:[AuthGuard]},
   { path: 'manager-dashboard', component: ManagerDashboardComponent,canActivate:[AuthGuard]},
