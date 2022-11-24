@@ -21,12 +21,10 @@
     
   </div>
 
-  <div *ngIf="this.msg =='success' " class="alert alert-success" role="alert">
+  <div *ngIf="this.check" class="alert alert-primary" role="alert">
 
-    <b>{{this.msg}}</b>
+    <b>{{this.selldata.message}}</b>
   </div>
+
   
-  <div *ngIf="this.msg =='fail' " class="alert alert-danger" role="alert">
   
-  <b>{{this.msg}}</b>
-  </div>
