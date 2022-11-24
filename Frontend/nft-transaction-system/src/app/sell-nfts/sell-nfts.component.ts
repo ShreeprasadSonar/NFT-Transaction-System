@@ -27,7 +27,7 @@ export class SellNftsComponent implements OnInit {
 
   sellnft(add:string){
     this.dataService.sellnfts(add).subscribe((data:any)=>{
-      this.msg=data;
+      this.msg=data.message;
     })
   }
 }
