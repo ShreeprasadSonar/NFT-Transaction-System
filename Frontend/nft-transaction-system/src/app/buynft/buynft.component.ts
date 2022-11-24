@@ -39,9 +39,11 @@ export class BuynftComponent implements OnInit {
     this.dataService.buynft(this.buynftform.address,this.buynftform.usdeth).subscribe((data:any) => {
       this.msg=data;
       console.log(this.msg);
+      this.alert=true;
+      setTimeout(()=>window.location.href="http://localhost:4200/dashboard",3000);
     });
     
-    this.alert=true;
+    
     
 }
 }
