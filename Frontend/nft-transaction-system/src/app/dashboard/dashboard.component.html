@@ -1,58 +1,68 @@
-<div class="card-middle">
-  <div class="container text-center">
-    <div class="row">
-        <div class="col-sm-12 col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Fiat Currency</h5>
-             <p class="card-text"><b>{{ethfiatvalue.fiatAmt}}$</b></p> 
-             <p class="card-text"> </p>
-              <a href="/addmore" class="btn btn-primary">Add More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Ethereum Currency</h5>
-              <p class="card-text">Ethereum Count : <b>{{ethfiatvalue.ethCnt}}</b></p>
-              <p class="card-text">Ethereum Value : <b>{{ethfiatvalue.ethValue}}</b></p>
-              <a href="/addmore" class="btn btn-primary">Add More</a>
-            </div>
-          </div>
-        </div>
-
+<div class="container" style="justify-content: center; margin-top: 120px">
+  <div class="card" style="margin-left: 25%;">
+    <div class="img">
+      <img src="./../../assets/img/logo-circular.png">
     </div>
-              <!-- table -->
-              <br> <br>
-              <table class="table table-image">
-                <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">NFT Address</th>
-                    <th scope="col">NFT Name</th>
-                    <th scope="col">NFT Value (ETH)</th>
-                    <th scope="col">NFT Image</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let nft of trade_nfts">
-                    <td>{{nft.NFT_add}}</td>
-                    <td>{{nft.name}}</td>
-                    <td>{{nft.NFT_value}}</td>
-                    <td><img class="w-25 h-25"  src={{nft.Image_URL}} alt=""></td>
-                  </tr>
-                   </tbody>
-              </table>
-              
-<br><br>
-
-<div>
-  <a href="/trade" class="btn btn-success">Buy Nft</a>
-  <a href="/sell-nfts" class="btn btn-danger">Sell Nft</a>
-  <a class="btn btn-primary" (click)="date()">Cancel Payment</a>
-</div>
-
-<br>
+    <div class="infos" style="justify-content: center; text-align: center;">
+      <div class="name">
+        <h2>Name of the user</h2>
+        <h4>Address</h4>
+      </div>
+      <p class="text">
+        Any extra info
+      </p>
+      <ul class="stats">
+        <li>
+          <h3>{{ethfiatvalue.fiatAmt}}$</h3>
+          <h4>Fiat Currency</h4>
+        </li>
+        <li>
+          <h3>{{ethfiatvalue.ethCnt}}</h3>
+          <h4>Ethereum Count</h4>
+        </li>
+        <li>
+          <h3>{{ethfiatvalue.ethValue}}</h3>
+          <h4>Ethereum Value</h4>
+        </li>
+      </ul>
+      <div>
+        <a href="/addmore" class="btn btn-primary">Add More</a>
+      </div>
+    </div>
   </div>
 </div>
 
+<div class="card-middle">
+  <div class="container text-center">
+    <!-- table -->
+    <br> <br>
+    <table class="table table-image">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">NFT Address</th>
+          <th scope="col">NFT Name</th>
+          <th scope="col">NFT Value (ETH)</th>
+          <th scope="col">NFT Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let nft of trade_nfts">
+          <td>{{nft.NFT_add}}</td>
+          <td>{{nft.name}}</td>
+          <td>{{nft.NFT_value}}</td>
+          <td><img class="w-25 h-25" src={{nft.Image_URL}} alt=""></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <br><br>
+
+    <div>
+      <a href="/trade" class="btn btn-success">Buy Nft</a>
+      <a href="/sell-nfts" class="btn btn-danger">Sell Nft</a>
+      <a class="btn btn-primary" (click)="date()">Cancel Payment</a>
+    </div>
+
+    <br>
+  </div>
+</div>

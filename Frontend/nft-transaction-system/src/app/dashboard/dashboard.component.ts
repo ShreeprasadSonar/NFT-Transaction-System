@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   ethfiatvalue:any;
   public searchFilter: any = '';
   searchText = '';
+  userDetails:any;
 
   constructor(private dataService: DataService,
               private router: Router ) { }
@@ -28,6 +29,10 @@ export class DashboardComponent implements OnInit {
       this.ethfiatvalue=data;
       console.log(this.trade_nfts);
       console.log(this.ethfiatvalue);
+    });
+
+    this.dataService.getTraderInfo().subscribe((data:any) => {
+      this.userDetails=data.message;
     });
 
     

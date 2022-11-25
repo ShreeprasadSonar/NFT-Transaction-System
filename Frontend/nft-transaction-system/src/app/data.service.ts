@@ -55,6 +55,11 @@ export class DataService {
     return this.http.post('http://127.0.0.1:5000/cancel', {id: id});
   }
 
+  getTraderInfo(){
+    const id = localStorage.getItem('id')
+    return this.http.post('http://127.0.0.1:5000/getTraderInfo', {id: id});
+  }
+
   buynft(address:String,com_type:String){
     const id= localStorage.getItem("id")
     const add=address
