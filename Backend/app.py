@@ -146,6 +146,41 @@ def register():
         return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
+@app.route('/getTraderInfo', methods=['GET', 'POST'])
+def getTraderInfo():
+    req = request.get_json()
+    trader_id = req['id']
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT t_name FROM TRADER WHERE t_id = % s', (trader_id,))
+    trader_name = cursor.fetchone()
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT st_add, city, state, zipcode FROM ADDRESS WHERE t_id = % s', (trader_id,))
+    trader_info = cursor.fetchall()
+    if(trader_info != None):
+        data = []
+        for row in trader_info:
+            data.append({
+                'st_Add': row[0],
+                'city': row[1],
+                'state' : row[2],
+                'zipcode' : row[3],
+            })
+            data.append({
+                'name': trader_name[0]
+            })
+        responseObject = {
+            'status': 'success',
+            'message': 'Data Successfully Retrieved',
+            'data': data
+        }
+        return jsonify(responseObject), 200
+    responseObject = {
+        'status': 'fail',
+        'message': 'No Data found'
+    }
+    return jsonify(responseObject), 200
+    
+@cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/getnfts', methods=['GET', 'POST'])
 def getnfts():
     cursor = mysql.connection.cursor()
