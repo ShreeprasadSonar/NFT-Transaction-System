@@ -238,7 +238,7 @@ def getTraderNfts():
         mysql.connection.commit()
             
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT fiat_amt, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
+    cursor.execute('SELECT fiat_amt, eth_cnt, mem_type FROM TRADER WHERE t_id = % s', (trader_id,))
     trader_transDetail = cursor.fetchone()
     cursor.execute('SELECT name, NFT_value, NFT_add, URL FROM NFT WHERE t_id = % s', (trader_id,))
     rows = cursor.fetchall()
@@ -257,6 +257,7 @@ def getTraderNfts():
             'message': data,
             'fiatAmt' : trader_transDetail[0],
             'ethCnt' : trader_transDetail[1],
+            'memType' : trader_transDetail[2],
             'ethValue': ETH_value['USD']
         }
         return jsonify(responseObject), 200
