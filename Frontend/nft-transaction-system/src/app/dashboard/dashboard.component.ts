@@ -27,6 +27,13 @@ export class DashboardComponent implements OnInit {
     this.dataService.getTraderNfts().subscribe((data:any) => {
       this.trade_nfts=data.message;
       this.ethfiatvalue=data;
+      const mem = document.getElementsByClassName('memType').item(0) as HTMLElement;
+      if(this.ethfiatvalue.memType == 'GOLD'){
+        mem.style.color = "Gold"
+      }
+      else if(this.ethfiatvalue.memType == 'SILVER'){
+        mem.style.color = "Silver"
+      }
     });
 
     this.dataService.getTraderInfo().subscribe((data:any) => {
