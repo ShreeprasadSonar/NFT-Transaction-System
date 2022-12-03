@@ -16,20 +16,21 @@
       </div>
   
     </div>
-
-
+<br><br>
+    <div *ngIf="check" >
+      <div *ngIf="selldata.status==='success' " class="alert alert-success" role="alert">
+  
+        {{selldata.message}}
+        </div>
+        <div *ngIf="selldata.status==='fail' " class="alert alert-danger" role="alert">
+  
+          {{selldata.message}}
+          </div>
+      </div>
     
   </div>
 
-  <div *ngIf="selldata.status==='success' " class="alert alert-success" role="alert">
-
-    <p>{{selldata.message}}</p>
-    </div>
-
-    <div *ngIf="selldata.status==='fail' " class="alert alert-danger" role="alert">
-
-        <p>{{selldata.message}}</p>
-    </div>
+  
 
   
   

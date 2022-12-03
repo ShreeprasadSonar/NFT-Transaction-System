@@ -30,7 +30,7 @@ export class SellNftsComponent implements OnInit {
     this.dataService.sellnfts(add).subscribe((data:any)=>{
       this.selldata=data;
       this.check=true;
-      setTimeout(()=>window.location.href="http://localhost:4200/dashboard",2000);
+      setTimeout(()=>window.location.href="http://localhost:4200/dashboard",5000);
     })
 
 

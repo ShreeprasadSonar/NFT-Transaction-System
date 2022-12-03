@@ -13,10 +13,11 @@ export class AddmoreComponent implements OnInit {
     amtcnt:number=0;
     acntno:number=0;
     rtno:number=0;
-
+    check:boolean=false ;
   public addmoreform:any={
     usdeth:''
   };
+  
 
 
   constructor(private http:HttpClient,private dataService: DataService,
@@ -34,6 +35,8 @@ export class AddmoreComponent implements OnInit {
   submit(){
     this.dataService.transaction(this.addmoreform.amtcnt,this.addmoreform.usdeth).subscribe((data:any) => {
       console.log(data);
+      this.check=true;
+      setTimeout(()=>window.location.href="http://localhost:4200/dashboard",2000);
     });
     console.log(this.addmoreform);
     console.log(this.addmoreform.usdeth);
