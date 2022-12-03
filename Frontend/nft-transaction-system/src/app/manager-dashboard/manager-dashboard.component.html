@@ -1,20 +1,17 @@
 <div class="card-middle" >
-    <b>Welcome Manager!</b><br><br>
+    <b><p style="text-align: center">Welcome Manager!</p></b>
                 <!-- table -->
                 <br>
                 <div>
                    
-                    <form>
-                        <label>
+                    <form style="text-align: center">
+                        <label style="text-align: center;">
                           <b>Enter From Date:</b> &nbsp;
-                          <input type="date" name="Fdate" [(ngModel)]="dateform.Fdate" >
-                        </label>
-                        <br><br>
-                        <label>
+                          <input type="date" name="Fdate" [(ngModel)]="dateform.Fdate" >&nbsp;&nbsp;&nbsp;
                           <b>Enter To Date: </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <input type="date" name="Tdate" [(ngModel)]="dateform.Tdate"  >
                         </label>
-
+                        <br>
                         <p><button class="btn btn-primary" (click)="toggleData()">Generate Data</button>
                         </p>
                       </form>
