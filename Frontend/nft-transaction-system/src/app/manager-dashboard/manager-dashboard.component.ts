@@ -37,7 +37,7 @@ export class ManagerDashboardComponent implements OnInit {
     private router: Router) { }
 
   toggleData() {
-    this.toDisplay = !this.toDisplay;
+    this.toDisplay = true;
     console.log(this.dateform);
     this.dataService.getAllTrader_TransHistory(this.dateform.Fdate,this.dateform.Tdate).subscribe((data:any) => {
       this.alltrade_transhistory_fiat=data.fiat_trans;

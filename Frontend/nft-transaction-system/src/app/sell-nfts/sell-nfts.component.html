@@ -21,10 +21,15 @@
     
   </div>
 
-  <div *ngIf="this.check" class="alert alert-primary" role="alert">
+  <div *ngIf="selldata.status==='success' " class="alert alert-success" role="alert">
 
-    <b>{{this.selldata.message}}</b>
-  </div>
+    <p>{{selldata.message}}</p>
+    </div>
+
+    <div *ngIf="selldata.status==='fail' " class="alert alert-danger" role="alert">
+
+        <p>{{selldata.message}}</p>
+    </div>
 
   
   

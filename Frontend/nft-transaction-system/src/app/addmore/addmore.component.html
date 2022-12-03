@@ -1,26 +1,25 @@
 <div class="midde_page">
 
-    <form>
-        <div class="form-group">
-          <label for="exampleFormControlSelect1">Select the Type</label>
-          <select class="form-control" name="usdeth" [(ngModel)]="addmoreform.usdeth">
+    <form >
+        <div class="form-group" >
+          <label for="exampleFormControlSelect1">Select the Type (USD / ETH)</label>
+          <select class="form-control" name="usdeth" [(ngModel)]="addmoreform.usdeth" required>
             <option>USD</option>
             <option>ETH</option>
         </select>
         <br>
           <div class="form-group">
             <label>Enter the Amount or Count of ETH</label>
-            <input type="text" name="amtcnt" class="form-control" [(ngModel)]="addmoreform.amtcnt">
+            <input type="text" name="amtcnt"  class="form-control" [(ngModel)]="addmoreform.amtcnt" required>         
           </div>
-
           <div class="form-group">
             <label >Enter the Account Number</label>
-            <input type="text" name="acntno" class="form-control" [(ngModel)]="addmoreform.acntno">
+            <input type="text" name="acntno" class="form-control" [(ngModel)]="addmoreform.acntno" required>
           </div>
 
           <div class="form-group">
             <label >Enter the Routing Number</label>
-            <input type="text" name="rtno" class="form-control" [(ngModel)]="addmoreform.rtno">
+            <input type="text" name="rtno" class="form-control" [(ngModel)]="addmoreform.rtno" required>
           </div>
 
         </div>
