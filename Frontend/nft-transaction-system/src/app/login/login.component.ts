@@ -35,16 +35,17 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 res => {
                     this.response = res
-                    console.log(this.response)
                     if(this.response.status != 'fail'){
                       localStorage.setItem('isloggedIn', 'true');
                       localStorage.setItem('token', this.response.token);
-                      localStorage.setItem('type', this.response.type);
+                      localStorage.setItem('type', this.registerForm.value.type);
                       localStorage.setItem('email', this.response.email);
                       localStorage.setItem('name', this.response.name);
                       localStorage.setItem('id', this.response.id);
+                      console.log(localStorage.getItem('type'))
                       if(this.registerForm.value.type == 'Manager'){
-                        this.router.navigateByUrl('/manager-dashboard');
+                          this.router.navigate(['manager-dashboard']);  
+                          window.location.reload() 
                       } else{
                         this.router.navigateByUrl('/dashboard');
                       }

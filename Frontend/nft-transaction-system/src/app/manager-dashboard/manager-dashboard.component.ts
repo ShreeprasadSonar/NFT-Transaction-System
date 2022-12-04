@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
+import { ResourceLoader } from '@angular/compiler';
 
 interface USERS{
   NFT_Name:String;
@@ -28,13 +29,16 @@ export class ManagerDashboardComponent implements OnInit {
   Users:any;
   alltrade_transhistory_fiat:any;
   alltrade_transhistory_nfttrans:any;
+  x = 1
   public dateform:any={
     Fdate:'',
     Tdate:''
   };
 
   constructor(private http:HttpClient,private dataService: DataService,
-    private router: Router) { }
+    private router: Router) { 
+      
+    }
 
   toggleData() {
     this.toDisplay = true;
@@ -45,17 +49,12 @@ export class ManagerDashboardComponent implements OnInit {
       console.log(data);
     });
     console.log(this.dateform);
-
   }
 
   //Users:USERS[]=UsersJson;
   
   ngOnInit(): void {
-
-
   }
-
-
   
 }
 

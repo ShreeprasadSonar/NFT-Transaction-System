@@ -14,6 +14,9 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log(this.data.getData().toString())
+    if(localStorage.getItem('type') == 'Manager'){
+      this.router.navigateByUrl('/manager-dashboard')
+    }
   }
 
   gotoTrade(){

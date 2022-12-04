@@ -19,14 +19,18 @@ export class DashboardComponent implements OnInit {
   public searchFilter: any = '';
   searchText = '';
   userDetails:any;
+  ethValueInFiat: any;
 
   constructor(private dataService: DataService,
-              private router: Router ) { }
+              private router: Router ) {
+                
+               }
   
   ngOnInit(): void {
     this.dataService.getTraderNfts().subscribe((data:any) => {
       this.trade_nfts=data.message;
       this.ethfiatvalue=data;
+      this.ethValueInFiat = (this.ethfiatvalue.ethCnt * this.ethfiatvalue.ethValue).toFixed(2)
       const mem = document.getElementsByClassName('memType').item(0) as HTMLElement;
       if(this.ethfiatvalue.memType == 'GOLD'){
         mem.style.color = "Gold"
@@ -38,9 +42,7 @@ export class DashboardComponent implements OnInit {
 
     this.dataService.getTraderInfo().subscribe((data:any) => {
       this.userDetails=data.data;
-    });
-
-    
+    }); 
   }
   date(){
     let date=new Date();

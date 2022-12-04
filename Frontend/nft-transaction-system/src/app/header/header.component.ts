@@ -10,6 +10,7 @@ const scroller = document.querySelector("#scroller");
 })
 export class HeaderComponent implements OnInit {
   isloggedIn:Boolean = false
+  isManager:Boolean = false
 
   constructor(private authService:AuthService,
               private router: Router) {
@@ -17,6 +18,11 @@ export class HeaderComponent implements OnInit {
       this.isloggedIn = true
     } else{
       this.isloggedIn = false
+    }
+    if(localStorage.getItem('type') == 'Manager'){
+      this.isManager = true
+    } else{
+      this.isManager = false
     }
   }
 
@@ -26,9 +32,16 @@ export class HeaderComponent implements OnInit {
     } else{
       return false;
     }
+    
   }
 
   ngOnInit(): void {
+    console.log(localStorage.getItem('type'))
+    if(localStorage.getItem('type') == 'Manager'){
+      this.isManager = true
+    } else{
+      this.isManager = false
+    }
     if(localStorage.getItem('isloggedIn') == 'true'){
       this.isloggedIn = true;
     } else{
