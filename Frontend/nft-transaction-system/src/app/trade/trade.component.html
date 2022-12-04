@@ -10,7 +10,7 @@
     <div *ngFor="let nft of nfts | searchFilter:searchText" class="card" (click)="makeTransaction(nft.NFT_add)">
       <div class="card_image"> <img src="{{nft.Image_URL}}" /> </div>
       <div class="card_title title-white">
-        <p>{{nft.name}} - ETH {{nft.NFT_value}}</p>
+        <p>{{nft.name}} - ETH {{nft.NFT_value}} - $ {{(nft.NFT_value * this.ethValueInD).toFixed(2)}}</p>
         <p class="nft_add" style="font-size: 12px; position: relative; top: -335px; color: black; z-index: -1;">{{nft.NFT_add}}</p>
       </div>
     </div>
