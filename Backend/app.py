@@ -211,25 +211,25 @@ def getTraderNfts():
     trader_id = req['id']
     now = datetime.now()
     toDate = now - timedelta(days = 30)
-    total_fiat_amount = 0
-    total_nft_value1 = 0
     total_amt = 0
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT amount, type FROM FIAT_TRANSACTIONS WHERE t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s', (toDate, now, trader_id, 'success'))
-    total_fiat_amount = cursor.fetchall() 
+    cursor.execute('SELECT SUM(t_value) FROM NFT_TRANSACTION WHERE (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s) ', (toDate, now, trader_id, 'bought and success', ))
+    total_nft_value2 = cursor.fetchone()
+
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT SUM(t_value) FROM NFT_TRANSACTION WHERE (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s) or (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s) or (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s) or (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s)', (toDate, now, trader_id, 'success', toDate, now, trader_id, 'bought and success', toDate, now, trader_id, 'sold and success', toDate, now, trader_id, 'sold and cancel'))
-    total_nft_value1 = cursor.fetchone() 
+    cursor.execute('SELECT SUM(t_value) FROM NFT_TRANSACTION WHERE (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s) ', (toDate, now, trader_id, 'sold and success', ))
+    total_nft_value3 = cursor.fetchone()
+
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT SUM(t_value) FROM NFT_TRANSACTION WHERE (t_date_time >= %s and t_date_time <= %s and t_id = %s and status = %s) ', (toDate, now, trader_id, 'sold and cancel', ))
+    total_nft_value4 = cursor.fetchone()
     
-    if (total_fiat_amount != None):
-        for row in total_fiat_amount:
-            if(row[1] == 'ETH'):
-                total_amt = total_amt + (row[0] * ETH_value['USD'])
-            else: 
-                total_amt = total_amt + row[0]
-                
-    if(total_nft_value1[0] != None):
-        total_amt = total_amt + (total_nft_value1[0] * ETH_value['USD'])
+    if(total_nft_value2[0] != None):
+        total_amt = total_amt + (total_nft_value2[0] * ETH_value['USD'])
+    if(total_nft_value3[0] != None):
+        total_amt = total_amt + (total_nft_value3[0] * ETH_value['USD'])
+    if(total_nft_value4[0] != None):
+        total_amt = total_amt + (total_nft_value4[0] * ETH_value['USD'])          
         
     if(total_amt > 100000):
         cursor = mysql.connection.cursor()
