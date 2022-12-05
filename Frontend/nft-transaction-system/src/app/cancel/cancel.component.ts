@@ -31,6 +31,8 @@ export class CancelComponent implements OnInit {
   cancelbutton(tid:string){
     this.dataService.cancelPayment(tid).subscribe((data:any) => {
   console.log(data);
+  setTimeout(()=>window.location.href="http://localhost:4200/cancel",1000);
+
   });
   }
 }
