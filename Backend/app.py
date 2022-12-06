@@ -317,47 +317,49 @@ def get_all_trader_trans_history():
     req = request.get_json()
     fromDate = req['from']
     toDate = req['to']
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    fromDate = fromDate + ' ' + '00:00:00'
-    toDate = toDate + ' ' + current_time
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT t_id, nft_trans_id, name, t_value, t_date_time, status, com_rate FROM NFT_TRANSACTION where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
-    nft_trans = cursor.fetchall()
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT t_id, ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
-    fiat_trans = cursor.fetchall()
-    if(nft_trans != None or fiat_trans != None):
-        nft_data = []
-        for row in nft_trans:
-            nft_data.append({
-                't_id': row[0],
-                'nft_trans_id': row[1],
-                'name' : row[2],
-                't_value' : row[3],
-                't_date_time' : row[4],
-                'status' : row[5],
-                'com_rate' : row[6]
-            })
-        fiat_data = []
-        for row1 in fiat_trans:
-            fiat_data.append({
-                't_id': row1[0],
-                'ft_id': row1[1],
-                'amount': row1[2],
-                'type' : row1[3],
-                'dateTime' : row1[4]
-            })
-        responseObject = {
-            'status': 'success',
-            'nft_trans': nft_data,
-            'fiat_trans': fiat_data,
-        }
+    if(fromDate != '' and toDate != ''):
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
+        fromDate = fromDate + ' ' + '00:00:00'
+        toDate = toDate + ' ' + current_time
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT t_id, nft_trans_id, name, t_value, t_date_time, status, com_rate FROM NFT_TRANSACTION where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
+        nft_trans = cursor.fetchall()
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT t_id, ft_id, amount, type, t_date_time FROM FIAT_TRANSACTIONS where t_date_time >= %s and t_date_time <= %s', (fromDate, toDate,))
+        fiat_trans = cursor.fetchall()
+        if(nft_trans != None or fiat_trans != None):
+            nft_data = []
+            for row in nft_trans:
+                nft_data.append({
+                    't_id': row[0],
+                    'nft_trans_id': row[1],
+                    'name' : row[2],
+                    't_value' : row[3],
+                    't_date_time' : row[4],
+                    'status' : row[5],
+                    'com_rate' : row[6]
+                })
+            fiat_data = []
+            for row1 in fiat_trans:
+                fiat_data.append({
+                    't_id': row1[0],
+                    'ft_id': row1[1],
+                    'amount': row1[2],
+                    'type' : row1[3],
+                    'dateTime' : row1[4]
+                })
+            responseObject = {
+                'status': 'success',
+                'nft_trans': nft_data,
+                'fiat_trans': fiat_data,
+            }   
         return jsonify(responseObject), 200
-    responseObject = {
-        'status': 'fail',
-        'message': 'No Data found'
-    }
+    else:
+        responseObject = {
+            'status': 'fail',
+            'message': 'Please Enter From or to date'
+        }
     return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
@@ -369,39 +371,40 @@ def addMoney():
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d %H:%M:%S")
     amount = req['amount']
-    type = req['type'] 
-    ft_id = randN(10)
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT fiat_amt, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
-    current_amt = cursor.fetchone()
-    total_amt = float(current_amt[0]) + float(amount)
-    total_eth = float(current_amt[1]) + float(amount)
-    cursor.execute('SELECT * FROM TRADER WHERE t_id = % s', (trader_id,))
-    row = cursor.fetchone()
-    if row:
-        if(type == 'USD'):
-            cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'success', type))
-            cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (total_amt, trader_id, ))
-            mysql.connection.commit()
-            msg = 'USD Successfully added to Wallet'
-        else: 
-            cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'success', type))
-            cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (total_eth, trader_id, ))
-            mysql.connection.commit()
-            msg = 'ETH Successfully added to Wallet'
+    type = req['type']
+    if(type != ''): 
+        ft_id = randN(10)
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT fiat_amt, eth_cnt FROM TRADER WHERE t_id = % s', (trader_id,))
+        current_amt = cursor.fetchone()
+        total_amt = float(current_amt[0]) + float(amount)
+        total_eth = float(current_amt[1]) + float(amount)
+        cursor.execute('SELECT * FROM TRADER WHERE t_id = % s', (trader_id,))
+        row = cursor.fetchone()
+        if row:
+            if(type == 'USD'):
+                cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'success', type))
+                cursor.execute("UPDATE TRADER SET fiat_amt = %s WHERE t_id = %s", (total_amt, trader_id, ))
+                mysql.connection.commit()
+                msg = 'USD Successfully added to Wallet'
+            else: 
+                cursor.execute("INSERT INTO FIAT_TRANSACTIONS (t_id, ft_id, t_date_time, amount, status, type) VALUES (% s, % s, % s, % s, % s, % s)", (trader_id, ft_id, date_time, amount, 'success', type))
+                cursor.execute("UPDATE TRADER SET eth_cnt = %s WHERE t_id = %s", (total_eth, trader_id, ))
+                mysql.connection.commit()
+                msg = 'ETH Successfully added to Wallet'
             
+            responseObject = {
+                'status': 'success',
+                'message': msg
+                }
+            return jsonify(responseObject), 200
+    else:  
+        msg = 'Please Select the type'
         responseObject = {
-            'status': 'success',
+            'status': 'fail',
             'message': msg
-            }
+        }
         return jsonify(responseObject), 200
-        
-    msg = 'Some Error Occured while Entering the data'
-    responseObject = {
-        'status': 'fail',
-        'message': msg
-    }
-    return jsonify(responseObject), 200
 
 @cross_origin(origin='*',headers=['Content-Type','application/json'])
 @app.route('/buynfts', methods=['GET', 'POST'])
@@ -667,18 +670,6 @@ def cancelPayment():
         'message': msg
     }
     return jsonify(responseObject), 200
-    
-@app.route('/homepage', methods=['GET'])
-def dashboard():
-    if not g.user:
-        return redirect(url_for('login'))
-    
-    return render_template('homepage.html')
-
-@app.route('/logout', methods=['POST'])
-def logout(): 
-    session.pop['user_id']
-    return render_template('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
