@@ -1,6 +1,6 @@
 # NFT-Transaction-System
 Project for CS 6360 Database design
-Demo: https://tinyurl.com/CS6360projectdemo
+### Demo: https://tinyurl.com/CS6360projectdemo
 
 
 # Project description
